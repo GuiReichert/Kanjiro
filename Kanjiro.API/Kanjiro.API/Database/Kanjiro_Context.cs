@@ -1,4 +1,5 @@
-﻿using Kanjiro.API.Models.Model;
+﻿using Kanjiro.API.Enums;
+using Kanjiro.API.Models.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kanjiro.API.Database
@@ -13,6 +14,7 @@ namespace Kanjiro.API.Database
 
         public DbSet<User> Users {get;set; }
         public DbSet<Deck> Decks {get;set; }
-        public DbSet<Card> Cards {get;set; }
+        public DbSet<Card> Cards {get;set; }   
+        public DbSet<CardInfo> CardInfos {get;set; }
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace Kanjiro.API.Models.Model
+﻿using Kanjiro.API.Enums;
+
+namespace Kanjiro.API.Models.Model
 {
     public class Card
     {
         public int Id { get; set; }
-        public string Front { get; set; } = string.Empty;
-        public string Back { get; set; } = string.Empty;
-        public string AdditionalInfo = string.Empty;
+        public CardInfo Info { get; set; } = new CardInfo();
+        public CardState State { get; set; }
+        public DateTime ReviewSchedule { get; set; }
     }
 }
