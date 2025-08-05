@@ -1,4 +1,6 @@
 ﻿using Kanjiro.API.Database;
+using Kanjiro.API.Models.Model;
+using Kanjiro.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kanjiro.API.Controllers
@@ -7,11 +9,36 @@ namespace Kanjiro.API.Controllers
     [Route("[controller]")]
     public class Card_Controller : ControllerBase
     {
-        private Kanjiro_Context _context;
+        private IDeckService _deckService;
+        private IUnitOfWork _unitOfWork;
 
-        public Card_Controller(Kanjiro_Context context)
+        public Card_Controller(IDeckService deckService, IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _deckService = deckService;
+            _unitOfWork = unitOfWork;
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<Card>>> PostCardToDeck(int cardInfoId, int deckId)
+        {
+            var response = new ServiceResponse<Card>();
+            try
+            {
+                var card = await _deckService.AddCardToDeck(cardInfoId, deckId);
+                await _unitOfWork.SaveChanges();
+
+
+                response.ReturnData = card;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+            if (response.Success) Ok(response);
+            return BadRequest(response);
+
         }
     }
 }

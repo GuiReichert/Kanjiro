@@ -1,5 +1,6 @@
 ﻿
 using Kanjiro.API.Database;
+using Kanjiro.API.Services.Interfaces;
 
 namespace Kanjiro.API.Services
 {

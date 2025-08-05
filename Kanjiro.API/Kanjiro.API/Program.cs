@@ -1,4 +1,6 @@
 using Kanjiro.API.Database;
+using Kanjiro.API.Services;
+using Kanjiro.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<Kanjiro_Context>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+builder.Services.AddScoped<IDeckService,DeckService>();
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddScoped<ICardInfoService,CardInfoService>();
+builder.Services.AddScoped<IUserService,UserService>();
+
 
 var app = builder.Build();
 

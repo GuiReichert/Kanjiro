@@ -1,10 +1,12 @@
 ﻿using Kanjiro.API.Database;
 using Kanjiro.API.Models.Model;
+using Kanjiro.API.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kanjiro.API.Services
 {
-    public class DeckService
+    public class DeckService : IDeckService
     {
         private Kanjiro_Context _context;
 
@@ -15,21 +17,26 @@ namespace Kanjiro.API.Services
 
         public async Task<CardInfo> ShowCardToReview(int DeckId)
         {
-            var cardToReview = await _context.Cards.FirstOrDefaultAsync(x => x.ReviewSchedule.Date < DateTime.Now && x.State != Enums.CardState.Flagged); // DeckId == x.DeckId
+            var cardToReview = await _context.Cards.Include(x => x.Info).FirstOrDefaultAsync(x => x.ReviewSchedule.Date < DateTime.Now && x.State != Enums.CardState.Flagged); // DeckId == x.DeckId
             
             if (cardToReview == null ) throw new Exception("Nenhuma carta encontrada para revisar.");
 
             return cardToReview.Info;
         }
 
-        public async Task AddDeck(string deckName)
+        public async Task<Deck> AddDeck(string deckName, int userId)
         {
-            var newDeck = new Deck { Name = deckName };
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
-            await _context.AddAsync(newDeck);
+            if (user == null) throw new Exception("Usuário não encontrado.");
+            var newDeck = new Deck { Name = deckName, UserId = user.Id};
+
+            await _context.Decks.AddAsync(newDeck);
+
+            return newDeck;
         }
 
-        public async Task AddCardToDeck(int cardInfoId, int deckId)
+        public async Task<Card> AddCardToDeck(int cardInfoId, int deckId)
         {
             var cardInfo = await _context.CardInfos.FirstOrDefaultAsync(x => x.Id == cardInfoId);
 
@@ -43,10 +50,12 @@ namespace Kanjiro.API.Services
                 Info = cardInfo,
                 ReviewSchedule = DateTime.Now,
                 State = Enums.CardState.New,
-                Deck = DeckToAdd
+                DeckId = DeckToAdd.Id
                 };
                 
-            await _context.AddAsync(cardToAdd);
+            await _context.Cards.AddAsync(cardToAdd);
+
+            return cardToAdd;
         }
 
     }

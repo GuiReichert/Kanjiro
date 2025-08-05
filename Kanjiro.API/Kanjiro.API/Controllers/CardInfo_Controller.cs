@@ -1,6 +1,7 @@
 ﻿using Kanjiro.API.Database;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services;
+using Kanjiro.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kanjiro.API.Controllers
@@ -9,19 +10,11 @@ namespace Kanjiro.API.Controllers
     [Route("[controller]")]
     public class CardInfo_Controller : ControllerBase
     {
-        private readonly Kanjiro_Context _context;
-        CardInfoService _cardInfoService;
+        private ICardInfoService _cardInfoService;
 
-        public CardInfo_Controller(Kanjiro_Context context)
+        public CardInfo_Controller(ICardInfoService cardInfoService)
         {
-            _context = context;
-            if (_cardInfoService == null) _cardInfoService = new CardInfoService(context);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<ServiceResponse<CardInfo>>> AddCard(CardInfo cardInfo)
-        {
-            return Ok(cardInfo);
+            _cardInfoService = cardInfoService;
         }
 
         [HttpGet("KanjiInfo")]

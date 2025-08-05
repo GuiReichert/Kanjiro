@@ -1,10 +1,11 @@
 ﻿using Kanjiro.API.Database;
 using Kanjiro.API.Models.Model;
+using Kanjiro.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kanjiro.API.Services
 {
-    public class CardInfoService
+    public class CardInfoService : ICardInfoService
     {
         private Kanjiro_Context _context;
 

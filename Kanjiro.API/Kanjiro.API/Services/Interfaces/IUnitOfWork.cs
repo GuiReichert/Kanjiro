@@ -1,4 +1,4 @@
-﻿namespace Kanjiro.API.Services
+﻿namespace Kanjiro.API.Services.Interfaces
 {
     public interface IUnitOfWork
     {
