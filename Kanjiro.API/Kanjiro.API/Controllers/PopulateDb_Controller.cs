@@ -20,7 +20,7 @@ namespace Kanjiro.API.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("PopulateDataBase")]
         public async Task<ActionResult<ServiceResponse<string>>> PopulateAPI()
         {
             var data = new ServiceResponse<string>();

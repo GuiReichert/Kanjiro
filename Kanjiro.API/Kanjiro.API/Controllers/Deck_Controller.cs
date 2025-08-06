@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 namespace Kanjiro.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Deck")]
     public class Deck_Controller : ControllerBase
     {
         private IDeckService _deckService;
@@ -19,7 +19,7 @@ namespace Kanjiro.API.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
+        [HttpGet("Review")]
         public async Task<ActionResult<ServiceResponse<CardInfo>>> GetReviewCard(int deckId)
         {
             var response = new ServiceResponse<CardInfo>();

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Kanjiro.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Deck/Card")]
     public class Card_Controller : ControllerBase
     {
         private IDeckService _deckService;
@@ -19,7 +19,7 @@ namespace Kanjiro.API.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost()]
         public async Task<ActionResult<ServiceResponse<Card>>> PostCardToDeck(int cardInfoId, int deckId)
         {
             var response = new ServiceResponse<Card>();
