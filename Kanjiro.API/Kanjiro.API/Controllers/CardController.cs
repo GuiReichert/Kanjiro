@@ -7,12 +7,12 @@ namespace Kanjiro.API.Controllers
 {
     [ApiController]
     [Route("Deck/Card")]
-    public class Card_Controller : ControllerBase
+    public class CardController : ControllerBase
     {
         private IDeckService _deckService;
         private IUnitOfWork _unitOfWork;
 
-        public Card_Controller(IDeckService deckService, IUnitOfWork unitOfWork)
+        public CardController(IDeckService deckService, IUnitOfWork unitOfWork)
         {
             _deckService = deckService;
             _unitOfWork = unitOfWork;

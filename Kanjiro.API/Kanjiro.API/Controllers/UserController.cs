@@ -7,12 +7,12 @@ namespace Kanjiro.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class User_Controller : ControllerBase
+    public class UserController : ControllerBase
     {
         private IUserService _userService;
         private IUnitOfWork _unitOfWork;
 
-        public User_Controller(IUserService userService, IUnitOfWork unitOfWork)
+        public UserController(IUserService userService, IUnitOfWork unitOfWork)
         {
             _userService = userService;
             _unitOfWork = unitOfWork;

@@ -8,11 +8,11 @@ namespace Kanjiro.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CardInfo_Controller : ControllerBase
+    public class CardInfoController : ControllerBase
     {
         private ICardInfoService _cardInfoService;
 
-        public CardInfo_Controller(ICardInfoService cardInfoService)
+        public CardInfoController(ICardInfoService cardInfoService)
         {
             _cardInfoService = cardInfoService;
         }

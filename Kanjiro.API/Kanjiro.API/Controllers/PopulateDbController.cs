@@ -10,17 +10,17 @@ namespace Kanjiro.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PopulateDb_Controller : ControllerBase
+    public class PopulateDbController : ControllerBase
     {
         private Kanjiro_Context _context;
         private PopulateDbService _populateService = new PopulateDbService();
 
-        public PopulateDb_Controller(Kanjiro_Context context)
+        public PopulateDbController(Kanjiro_Context context)
         {
             _context = context;
         }
 
-        [HttpGet("PopulateDataBase")]
+        [HttpGet()]
         public async Task<ActionResult<ServiceResponse<string>>> PopulateAPI()
         {
             var data = new ServiceResponse<string>();

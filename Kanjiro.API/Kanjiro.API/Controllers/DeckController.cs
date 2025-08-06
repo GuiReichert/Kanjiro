@@ -8,12 +8,12 @@ namespace Kanjiro.API.Controllers
 {
     [ApiController]
     [Route("Deck")]
-    public class Deck_Controller : ControllerBase
+    public class DeckController : ControllerBase
     {
         private IDeckService _deckService;
         private IUnitOfWork _unitOfWork;
 
-        public Deck_Controller(IDeckService deckService, IUnitOfWork unitOfWork)
+        public DeckController(IDeckService deckService, IUnitOfWork unitOfWork)
         {
             _deckService = deckService;
             _unitOfWork = unitOfWork;
