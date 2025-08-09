@@ -19,6 +19,7 @@ builder.Services.AddScoped<IDeckService,DeckService>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<ICardInfoService,CardInfoService>();
 builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<ITokenService,TokenService>();
 
 
 var app = builder.Build();
