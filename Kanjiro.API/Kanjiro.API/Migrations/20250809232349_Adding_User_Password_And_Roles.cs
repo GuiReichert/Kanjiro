@@ -10,26 +10,26 @@ namespace Kanjiro.API.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<int>(
                 name: "AccountType",
                 table: "Users",
-                type: "nvarchar(max)",
+                type: "int",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0);
 
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "PasswordHash",
                 table: "Users",
-                type: "nvarchar(max)",
+                type: "varbinary(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: new byte[0]);
 
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "PasswordSalt",
                 table: "Users",
-                type: "nvarchar(max)",
+                type: "varbinary(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: new byte[0]);
         }
 
         /// <inheritdoc />

@@ -13,13 +13,5 @@ namespace Kanjiro.API.Services
             _context = context;
         }
 
-        public async Task<User> CreateUser(string userName)
-        {
-            var user = new User() {UserName = userName };
-
-            await _context.Users.AddAsync(user);
-
-            return user;
-        }
     }
 }

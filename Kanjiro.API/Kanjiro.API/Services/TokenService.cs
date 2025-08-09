@@ -17,7 +17,7 @@ namespace Kanjiro.API.Services
             _configuration = configuration;
         }
 
-        public string CreateToken(User user)
+        public string CreateValidationJWT(User user)
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 

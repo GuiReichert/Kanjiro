@@ -4,6 +4,5 @@ namespace Kanjiro.API.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task<User> CreateUser(string userName);
     }
 }
