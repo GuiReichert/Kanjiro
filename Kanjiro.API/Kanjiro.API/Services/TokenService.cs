@@ -42,7 +42,7 @@ namespace Kanjiro.API.Services
         {
             var CI = new ClaimsIdentity();
             CI.AddClaim(new Claim(type: ClaimTypes.NameIdentifier, value: user.Id.ToString()));
-            CI.AddClaim(new Claim(type: ClaimTypes.Name, value: user.UserName.ToString()));
+            CI.AddClaim(new Claim(type: ClaimTypes.Name, value: user.UserName));
             CI.AddClaim(new Claim(type: ClaimTypes.Role, value: user.AccountType.ToString()));
 
             return CI;

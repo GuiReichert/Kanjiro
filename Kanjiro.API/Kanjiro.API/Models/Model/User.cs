@@ -1,4 +1,6 @@
-﻿namespace Kanjiro.API.Models.Model
+﻿using Kanjiro.API.Enums;
+
+namespace Kanjiro.API.Models.Model
 {
     public class User
     {
@@ -7,7 +9,7 @@
 
         public string PasswordHash { get; set; } = string.Empty;
         public string PasswordSalt { get; set; } = string.Empty;
-        public string AccountType { get; set; } = string.Empty;
+        public UserAccountType AccountType { get; set; }
         public List<Deck> Decks { get; set; } = new List<Deck>();
 
     }
