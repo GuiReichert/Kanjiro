@@ -15,7 +15,7 @@ namespace Kanjiro.API.Services
 
             KanjiRoot root = JsonSerializer.Deserialize<KanjiRoot>(arquivo_txt);
 
-            var cards = root.Kanjis.Values.Where(x => x.Jlpt == 5).Select(k => new CardInfo()
+            var cards = root.Kanjis.Values.Where(x => x.Jlpt == 5 || x.Jlpt == 4 || x.Jlpt == 3 || x.Jlpt == 2|| x.Jlpt == 1).Select(k => new CardInfo()
             {
                 Front = k.Kanji,
                 Back = string.Join(",", k.OnReadings.Concat(k.KunReadings)),
