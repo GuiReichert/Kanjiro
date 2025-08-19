@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kanjiro_app/Views/card_review_page.dart';
 import 'package:kanjiro_app/Views/home_page.dart';
 import 'package:kanjiro_app/Views/login_page.dart';
 
