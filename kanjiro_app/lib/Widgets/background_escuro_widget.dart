@@ -13,7 +13,7 @@ class KanjiroBackgroundEscuro extends StatelessWidget {
           image: AssetImage('assets/images/mainedited.png'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            Colors.white.withOpacity(0.3),
+            Colors.white.withValues(alpha: 0.3),
             BlendMode.modulate,
           ),
         ),

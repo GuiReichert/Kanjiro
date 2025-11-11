@@ -17,7 +17,7 @@ class KanjiroBackgroundClaro extends StatelessWidget {
         image: DecorationImage(
           image: AssetImage('assets/images/mainedited.png'),
           colorFilter: ColorFilter.mode(
-            Colors.white.withOpacity(0.3),
+            Colors.white.withValues(alpha: 0.3),
             BlendMode.modulate,
           ),
           fit: BoxFit.contain,

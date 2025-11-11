@@ -18,7 +18,12 @@ class HomePage extends StatelessWidget {
         height: 750,
         width: 375,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 224, 220, 233).withOpacity(0.7),
+          color: const Color.fromARGB(
+            255,
+            224,
+            220,
+            233,
+          ).withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(

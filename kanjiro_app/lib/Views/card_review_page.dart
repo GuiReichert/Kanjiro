@@ -17,7 +17,9 @@ class _CardReviewPageState extends State<CardReviewPage> {
       body: KanjiroBackgroundClaro(
         widgetFilho: Center(
           child: Container(
-            decoration: BoxDecoration(color: Colors.white.withOpacity(0.7)),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.75),
+            ),
             child: Center(
               child: Text(
                 'KANJI AQUI',
@@ -29,7 +31,7 @@ class _CardReviewPageState extends State<CardReviewPage> {
       ),
       appBar: barraSuperiorCardReview(),
       bottomNavigationBar: BottomAppBar(
-        color: const Color.fromARGB(255, 10, 40, 68).withOpacity(0.8),
+        color: const Color.fromARGB(255, 10, 40, 68).withValues(alpha: 0.8),
         child: mostrarResposta ? botoesDificuldade() : botaoMostrarResposta(),
       ),
     );
@@ -61,21 +63,24 @@ class _CardReviewPageState extends State<CardReviewPage> {
 
   AppBar barraSuperiorCardReview() {
     return AppBar(
-      backgroundColor: const Color.fromARGB(255, 10, 40, 68).withOpacity(0.8),
+      backgroundColor: const Color.fromARGB(
+        255,
+        10,
+        40,
+        68,
+      ).withValues(alpha: 0.8),
       elevation: 1,
       leadingWidth: 500,
       leading: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            child: Text('Voltar', style: TextStyle(color: Colors.white)),
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(left: 10),
+            child: Text('Voltar', style: TextStyle(color: Colors.white)),
           ),
           SizedBox(width: 300),
-          Container(
-            child: Text('Opcões', style: TextStyle(color: Colors.white)),
-          ),
+          Text('Opcões', style: TextStyle(color: Colors.white)),
         ],
       ),
     );
