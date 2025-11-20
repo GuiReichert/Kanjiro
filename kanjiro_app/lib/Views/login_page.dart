@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kanjiro_app/Views/home_page.dart';
 import 'package:kanjiro_app/Widgets/background_escuro_widget.dart';
 
 class LoginPage extends StatelessWidget {
@@ -7,11 +8,26 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: KanjiroBackgroundEscuro(widgetFilho: Center(child: loginBox())),
+      body: KanjiroBackgroundEscuro(
+        widgetFilho: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 150),
+              Text(
+                'Login',
+                style: TextStyle(color: Colors.white, fontSize: 50),
+              ),
+              loginBox(context),
+              Spacer(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Container loginBox() {
+  Container loginBox(BuildContext ctx) {
     return Container(
       decoration: BoxDecoration(
         color: const Color.fromARGB(157, 146, 170, 221),
@@ -26,7 +42,7 @@ class LoginPage extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsetsDirectional.only(start: 10),
@@ -84,12 +100,29 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            Center(
-              child: ElevatedButton(onPressed: () {}, child: Text('Login')),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(onPressed: () {}, child: Text('Create Account')),
+                Spacer(),
+                ElevatedButton(
+                  onPressed: () {
+                    _pressLogin(ctx);
+                  },
+                  child: Text('Login'),
+                ),
+              ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _pressLogin(BuildContext ctx) {
+    Navigator.pushReplacement(
+      ctx,
+      MaterialPageRoute(builder: (ctx) => HomePage()),
     );
   }
 }

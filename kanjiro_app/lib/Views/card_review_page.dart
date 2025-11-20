@@ -31,7 +31,7 @@ class _CardReviewPageState extends State<CardReviewPage> {
       ),
       appBar: barraSuperiorCardReview(),
       bottomNavigationBar: BottomAppBar(
-        color: const Color.fromARGB(255, 10, 40, 68).withValues(alpha: 0.8),
+        color: const Color.fromARGB(255, 42, 75, 105),
         child: mostrarResposta ? botoesDificuldade() : botaoMostrarResposta(),
       ),
     );
@@ -63,26 +63,8 @@ class _CardReviewPageState extends State<CardReviewPage> {
 
   AppBar barraSuperiorCardReview() {
     return AppBar(
-      backgroundColor: const Color.fromARGB(
-        255,
-        10,
-        40,
-        68,
-      ).withValues(alpha: 0.8),
+      backgroundColor: const Color.fromARGB(255, 42, 75, 105),
       elevation: 1,
-      leadingWidth: 500,
-      leading: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(left: 10),
-            child: Text('Voltar', style: TextStyle(color: Colors.white)),
-          ),
-          SizedBox(width: 300),
-          Text('Opcões', style: TextStyle(color: Colors.white)),
-        ],
-      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kanjiro_app/Views/card_review_page.dart';
+import 'package:kanjiro_app/Views/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,6 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: CardReviewPage());
+    return MaterialApp(
+      home: LoginPage(),
+    );
   }
 }
