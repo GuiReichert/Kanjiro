@@ -71,10 +71,7 @@ namespace Kanjiro.API.Services
             }
         }
 
-        #endregion 
-
-
-
+        #endregion
 
     }
 }

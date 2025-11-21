@@ -11,6 +11,7 @@ namespace Kanjiro.API.Models.Model
         public byte[] PasswordSalt { get; set; }
         public UserAccountType AccountType { get; set; }
         public List<Deck> Decks { get; set; } = new List<Deck>();
+        public UserSettings Settings { get; set; } = new UserSettings();
 
     }
 }
