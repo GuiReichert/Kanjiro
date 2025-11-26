@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:kanjiro_app/Services/api_service.dart';
 import 'package:kanjiro_app/Views/home_page.dart';
 import 'package:kanjiro_app/Widgets/background_escuro_widget.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final txtUserController = TextEditingController();
+  final txtPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +64,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 65,
               child: TextField(
+                controller: txtUserController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -88,6 +93,8 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 65,
               child: TextField(
+                controller: txtPasswordController,
+                obscureText: true,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -119,7 +126,12 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void _pressLogin(BuildContext ctx) {
+  Future<void> _pressLogin(BuildContext ctx) async {
+    await ApiService.userLogin(
+      txtUserController.text,
+      txtPasswordController.text,
+    );
+
     Navigator.pushReplacement(
       ctx,
       MaterialPageRoute(builder: (ctx) => HomePage()),

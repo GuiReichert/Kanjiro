@@ -15,12 +15,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Kanjiro_Context>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-builder.Services.AddScoped<IDeckService,DeckService>();
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-builder.Services.AddScoped<ICardInfoService,CardInfoService>();
-builder.Services.AddScoped<IUserService,UserService>();
-builder.Services.AddScoped<ITokenService,TokenService>();
-builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddScoped<IDeckService, DeckService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICardInfoService, CardInfoService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 var app = builder.Build();
@@ -32,8 +32,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+#if !DEBUG
 app.UseHttpsRedirection();
+#endif
 
 app.UseAuthorization();
 

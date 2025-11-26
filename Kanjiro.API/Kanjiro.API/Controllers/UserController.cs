@@ -18,6 +18,9 @@ namespace Kanjiro.API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        #region "Endpoints"
+
+
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<string>>> RegisterUser(string Username, string Password)
         {
@@ -41,13 +44,13 @@ namespace Kanjiro.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<ServiceResponse<UserDTO>>> Login(string Username, string Password)
+        public async Task<ActionResult<ServiceResponse<UserDTO>>> Login([FromBody] LoginRequestModel loginRequest)
         {
             var response = new ServiceResponse<UserDTO>();
 
             try
             {
-                var userData = await _authService.Login(Username, Password);
+                var userData = await _authService.Login(loginRequest.Username, loginRequest.Password);
 
                 response.ReturnData = userData;
             }
@@ -62,7 +65,16 @@ namespace Kanjiro.API.Controllers
 
         }
 
+        #endregion
 
+        #region "Private Models"
 
+        public class LoginRequestModel
+        {
+            public string Username { get; set; } = string.Empty;
+            public string Password { get; set; } = string.Empty;
+        }
+
+        #endregion
     }
 }
