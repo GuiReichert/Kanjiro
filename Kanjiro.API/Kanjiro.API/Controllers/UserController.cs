@@ -1,4 +1,4 @@
-﻿using Kanjiro.API.Database;
+﻿using Kanjiro.API.Models.DTO_s;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -36,22 +36,22 @@ namespace Kanjiro.API.Controllers
                 response.Message = ex.Message;
             }
 
-            if(response.Success) return Ok(response);
+            if (response.Success) return Ok(response);
             return BadRequest(response);
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<ServiceResponse<string>>> Login(string Username, string Password)
+        public async Task<ActionResult<ServiceResponse<UserDTO>>> Login(string Username, string Password)
         {
-            var response = new ServiceResponse<string>();
+            var response = new ServiceResponse<UserDTO>();
 
             try
             {
-                var ValidationToken = await _authService.Login(Username, Password);
+                var userData = await _authService.Login(Username, Password);
 
-                response.ReturnData = ValidationToken;
+                response.ReturnData = userData;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 response.Success = false;
                 response.Message = ex.Message;
