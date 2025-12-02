@@ -1,5 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:kanjiro_app/Utils/Enums/jlpt_level.dart';
 
+part 'card_info_model.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class CardInfoModel {
   CardInfoModel({
     required this.jlptLevel,
@@ -18,4 +22,9 @@ class CardInfoModel {
   final List<String> readings;
   final List<String> exampleWords;
   final String additionalInfo;
+
+  factory CardInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$CardInfoModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CardInfoModelToJson(this);
 }

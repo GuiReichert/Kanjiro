@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:kanjiro_app/Models/user_model.dart';
 
 class ApiService {
-  static Future<dynamic> userLogin(String userName, String password) async {
+  static Future<UserModel> userLogin(String userName, String password) async {
     try {
       final dio = Dio();
 
@@ -16,10 +17,10 @@ class ApiService {
         ),
       );
 
-      print("Status: ${response.statusCode}");
-      print("Status: ${response.data}");
-
-      return response;
+      var json = response.data['returnData'];
+      print(response);
+      print(json);
+      return UserModel.fromJson(json);
     } catch (e) {
       throw Exception(e);
     }
