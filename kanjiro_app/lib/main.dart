@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:injector/injector.dart';
+import 'package:kanjiro_app/ViewModels/user_viewmodel.dart';
 import 'package:kanjiro_app/Views/login_page.dart';
 
 void main() {
+  final injector = Injector.appInstance;
+
+  injector.registerSingleton<UserViewmodel>(() => UserViewmodel());
+
   runApp(const MyApp());
 }
 

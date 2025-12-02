@@ -44,7 +44,7 @@ namespace Kanjiro.API.Services
 
         public async Task<UserDTO> Login(string username, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var user = await _context.Users.Include(x => x.Decks).ThenInclude(x => x.Cards).ThenInclude(x => x.Info).Include(x => x.Settings).FirstOrDefaultAsync(x => x.UserName == username);
             if (user == null || !ValidatePassword(username, password, user)) throw new Exception("Username or password incorrect.");
 
             var ValidationToken = _tokenService.CreateValidationJWT(user);

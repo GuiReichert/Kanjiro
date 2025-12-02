@@ -15,7 +15,9 @@ class CardModel {
     required this.reviewDateCounter,
   });
 
+  @JsonKey(name: 'info')
   final CardInfoModel cardInfo;
+  @JsonKey(name: 'state')
   final CardState cardState;
   final DateTime nextReviewDate;
   final int mistakeCounter;

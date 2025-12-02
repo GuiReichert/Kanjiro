@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kanjiro_app/Services/api_service.dart';
+import 'package:injector/injector.dart';
+import 'package:kanjiro_app/ViewModels/user_viewmodel.dart';
 import 'package:kanjiro_app/Views/home_page.dart';
 import 'package:kanjiro_app/Widgets/background_escuro_widget.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
+  final userViewModel = Injector.appInstance.get<UserViewmodel>();
   final txtUserController = TextEditingController();
   final txtPasswordController = TextEditingController();
 
@@ -127,7 +129,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Future<void> _pressLogin(BuildContext ctx) async {
-    await ApiService.userLogin(
+    await userViewModel.loadUser(
       txtUserController.text,
       txtPasswordController.text,
     );

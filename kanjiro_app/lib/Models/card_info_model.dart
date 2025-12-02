@@ -10,17 +10,14 @@ class CardInfoModel {
     required this.front,
     required this.back,
     required this.kanji,
-    required this.readings,
-    required this.exampleWords,
     required this.additionalInfo,
   });
 
+  @JsonKey(name: 'level')
   final JlptLevel jlptLevel;
   final String front;
   final String back;
   final String kanji;
-  final List<String> readings;
-  final List<String> exampleWords;
   final String additionalInfo;
 
   factory CardInfoModel.fromJson(Map<String, dynamic> json) =>

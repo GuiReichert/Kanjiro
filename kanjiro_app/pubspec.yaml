@@ -20,6 +20,7 @@ dependencies:
   flutter_mobx: ^2.3.0
   dio: ^5.9.0
   json_annotation: ^4.9.0
+  injector: ^4.0.0
 
 
 dev_dependencies:

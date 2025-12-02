@@ -3,6 +3,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum JlptLevel {
+  @JsonValue(0)
+  None(0),
   @JsonValue(1)
   N1(1),
   @JsonValue(2)
