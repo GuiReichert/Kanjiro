@@ -12,15 +12,15 @@ abstract class UserViewModelBase with Store {
   @observable
   UserModel? user;
 
-  UserDeckViewmodel deckViewmodel = UserDeckViewmodel();
-  UserSettingsViewmodel settingsViewmodel = UserSettingsViewmodel();
+  late UserDeckViewmodel deckViewmodel;
+  late UserSettingsViewmodel settingsViewmodel;
 
   @action
   Future<void> loadUser(String userName, String password) async {
     var userApi = await ApiService.userLogin(userName, password);
 
     user = userApi;
-    deckViewmodel.decks = user!.decks;
-    settingsViewmodel.userSettings = user!.userSettings;
+    deckViewmodel = UserDeckViewmodel(decks: user!.decks);
+    settingsViewmodel = UserSettingsViewmodel(userSettings: user!.userSettings);
   }
 }

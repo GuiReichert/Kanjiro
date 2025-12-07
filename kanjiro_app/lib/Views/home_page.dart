@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kanjiro_app/ViewModels/user_viewmodel.dart';
 import 'package:kanjiro_app/Views/card_review_page.dart';
 import 'package:kanjiro_app/Widgets/background_claro_widget.dart';
 import 'package:kanjiro_app/Widgets/main_page_drawer.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.userViewModel});
+
+  final UserViewmodel userViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +24,14 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: KanjiroBackgroundClaro(widgetFilho: conteudo(context)),
+      body: KanjiroBackgroundClaro(
+        widgetFilho: Observer(builder: (_) => conteudo(context)),
+      ),
       bottomNavigationBar: barraInferior(),
     );
   }
 
-  Center conteudo(context) {
+  conteudo(context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 20, bottom: 30),
@@ -52,7 +58,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Bom dia, vamos estudar seu deck hoje?',
+                'Bom dia, vamos estudar seu deck hoje? \n Cartas a revisar: ${userViewModel.deckViewmodel.cardsToReview.length}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
@@ -122,7 +128,12 @@ class HomePage extends StatelessWidget {
   void _revisarDeck(ctx) {
     Navigator.push(
       ctx,
-      MaterialPageRoute(builder: (ctx) => CardReviewPage()),
+      MaterialPageRoute(
+        builder:
+            (ctx) => CardReviewPage(
+              deckViewModel: userViewModel.deckViewmodel,
+            ),
+      ),
     );
   }
 }

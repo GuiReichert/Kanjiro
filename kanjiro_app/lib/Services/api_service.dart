@@ -18,8 +18,6 @@ class ApiService {
       );
 
       var json = response.data['returnData'];
-      print(response);
-      print(json);
       return UserModel.fromJson(json);
     } catch (e) {
       throw Exception(e);

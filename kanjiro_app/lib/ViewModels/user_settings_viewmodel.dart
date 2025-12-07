@@ -7,6 +7,8 @@ class UserSettingsViewmodel = UserSettingsViewmodelBase
     with _$UserSettingsViewmodel;
 
 abstract class UserSettingsViewmodelBase with Store {
+  UserSettingsViewmodelBase({required this.userSettings});
+
   @observable
-  UserSettingsModel userSettings = UserSettingsModel();
+  UserSettingsModel userSettings;
 }
