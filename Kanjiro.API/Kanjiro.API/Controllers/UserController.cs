@@ -11,11 +11,13 @@ namespace Kanjiro.API.Controllers
     {
         private IAuthService _authService;
         private IUnitOfWork _unitOfWork;
+        private IUserService _userService;
 
-        public UserController(IAuthService authService, IUnitOfWork unitOfWork)
+        public UserController(IAuthService authService, IUnitOfWork unitOfWork, IUserService userService)
         {
             _authService = authService;
             _unitOfWork = unitOfWork;
+            _userService = userService;
         }
 
         #region "Endpoints"
@@ -60,6 +62,29 @@ namespace Kanjiro.API.Controllers
                 response.Message = ex.Message;
             }
 
+            if (response.Success) return Ok(response);
+            return BadRequest(response);
+
+        }
+
+        [HttpPut("Synchronize")]
+        public async Task<ActionResult<ServiceResponse<string>>> SynchronizeChanges([FromBody] UserDTO user)
+        {
+            //TODO: Validar usuário e senha novamente ou token / refreshToken
+
+            var response = new ServiceResponse<string>();
+            response.ReturnData = string.Empty;
+
+            try
+            {
+                await _userService.SynchronizeChanges(user);
+                await _unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
             if (response.Success) return Ok(response);
             return BadRequest(response);
 

@@ -9,9 +9,9 @@ namespace Kanjiro.API.Models.Model
         public CardInfo Info { get; set; } = new CardInfo();
         public CardState State { get; set; }
         public DateTime NextReviewDate { get; set; }
-        public int MistakeCounter {  get; set; }
-        public float CurrentDifficultyMultiplier { get; set; }
-        public int ReviewDateCounter {  get; set; }
+        public int MistakeCounter { get; set; }
+        public float CurrentDifficultyMultiplier { get; set; } = 1;
+        public int ReviewDateCounter { get; set; } = 1;
 
     }
 }

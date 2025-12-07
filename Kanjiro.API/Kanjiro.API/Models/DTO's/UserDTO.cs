@@ -6,6 +6,7 @@ namespace Kanjiro.API.Models.DTO_s
     public class UserDTO
     {
         // Auth,Refresh Token????
+        public int Id { get; set; }
         public string UserName { get; set; } = string.Empty;
         public List<Deck> Decks { get; set; } = new List<Deck>();
         public UserAccountType AccountType { get; set; }

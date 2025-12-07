@@ -51,6 +51,7 @@ namespace Kanjiro.API.Services
 
             var userDTO = new UserDTO           // TODO: Eventualmente alterar para Mapper
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 AccountType = user.AccountType,
                 Decks = user.Decks,
