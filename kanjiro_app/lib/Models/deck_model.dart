@@ -5,8 +5,9 @@ part 'deck_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class DeckModel {
-  DeckModel({required this.cards});
+  DeckModel({required this.id, required this.cards});
 
+  final int id;
   final List<CardModel> cards;
 
   factory DeckModel.fromJson(Map<String, dynamic> json) =>

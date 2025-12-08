@@ -8,11 +8,13 @@ part 'user_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class UserModel {
   UserModel({
+    required this.id,
     required this.decks,
     required this.userSettings,
     required this.accountType,
   });
 
+  final int id;
   final List<DeckModel> decks;
   @JsonKey(name: "settings")
   final UserSettingsModel userSettings;

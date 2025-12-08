@@ -19,6 +19,27 @@ class ApiService {
 
       var json = response.data['returnData'];
       return UserModel.fromJson(json);
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  static Future<UserModel> synchronizeChanges(UserModel user) async {
+    try {
+      final dio = Dio();
+
+      final response = await dio.put(
+        'http://10.0.2.2:5288/User/Synchronize',
+        data: user.toJson(),
+      );
+
+      var json = response.data['returnData'];
+
+      return UserModel.fromJson(json);
+    } on DioException catch (e) {
+      throw new Exception(e.message);
     } catch (e) {
       throw Exception(e);
     }

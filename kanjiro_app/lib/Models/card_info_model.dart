@@ -6,6 +6,7 @@ part 'card_info_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class CardInfoModel {
   CardInfoModel({
+    required this.id,
     required this.jlptLevel,
     required this.front,
     required this.back,
@@ -13,6 +14,7 @@ class CardInfoModel {
     required this.additionalInfo,
   });
 
+  final int id;
   @JsonKey(name: 'level')
   final JlptLevel jlptLevel;
   final String front;

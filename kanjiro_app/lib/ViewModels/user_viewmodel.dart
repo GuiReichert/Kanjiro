@@ -12,12 +12,29 @@ abstract class UserViewModelBase with Store {
   @observable
   UserModel? user;
 
+  @observable
   late UserDeckViewmodel deckViewmodel;
+  @observable
   late UserSettingsViewmodel settingsViewmodel;
 
   @action
   Future<void> loadUser(String userName, String password) async {
     var userApi = await ApiService.userLogin(userName, password);
+
+    user = userApi;
+    deckViewmodel = UserDeckViewmodel(decks: user!.decks);
+    settingsViewmodel = UserSettingsViewmodel(userSettings: user!.userSettings);
+  }
+
+  @action
+  Future<void> logoutUser() async {
+    synchronizeChanges();
+    user = null;
+  }
+
+  @action
+  Future<void> synchronizeChanges() async {
+    var userApi = await ApiService.synchronizeChanges(user!);
 
     user = userApi;
     deckViewmodel = UserDeckViewmodel(decks: user!.decks);

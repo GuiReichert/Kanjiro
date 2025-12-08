@@ -18,7 +18,33 @@ class HomePage extends StatelessWidget {
         title: Center(child: Text('Kanjiro')),
         backgroundColor: const Color.fromARGB(255, 127, 155, 182),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.sync)),
+          IconButton(
+            onPressed: () async {
+              var mensagem = 'Sincronização concluída com sucesso.';
+
+              try {
+                await userViewModel.synchronizeChanges();
+              } catch (e) {
+                mensagem = e.toString();
+              }
+
+              showDialog(
+                context: context,
+                builder:
+                    (_) => AlertDialog(
+                      title: Text('Atenção'),
+                      content: Text(mensagem),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('OK'),
+                        ),
+                      ],
+                    ),
+              );
+            },
+            icon: Icon(Icons.sync),
+          ),
           SizedBox(
             width: 15,
           ),
@@ -126,6 +152,24 @@ class HomePage extends StatelessWidget {
   }
 
   void _revisarDeck(ctx) {
+    if (userViewModel.deckViewmodel.cardsToReview.isEmpty) {
+      showDialog(
+        context: ctx,
+        builder:
+            (_) => AlertDialog(
+              title: Text('Atenção'),
+              content: Text('Nenhuma carta para revisar'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: Text('Ok'),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
+
     Navigator.push(
       ctx,
       MaterialPageRoute(

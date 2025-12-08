@@ -25,4 +25,17 @@ abstract class UserDeckViewmodelBase with Store {
 
   @computed
   CardModel? get nextCardToReview => cardsToReview.firstOrNull;
+
+  @action
+  void updateCardReviewDate(CardModel card, double multiplier) {
+    card.currentDifficultyMultiplier *= multiplier;
+    card.nextReviewDate = today.add(
+      Duration(
+        days:
+            ((card.reviewDateCounter == 0 ? 1 : card.reviewDateCounter) *
+                    card.currentDifficultyMultiplier)
+                .toInt(),
+      ),
+    );
+  }
 }
