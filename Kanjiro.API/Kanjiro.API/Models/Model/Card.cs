@@ -6,7 +6,7 @@ namespace Kanjiro.API.Models.Model
     {
         public int Id { get; set; }
         public int DeckId { get; set; }
-        public CardInfo Info { get; set; } = new CardInfo();
+        public CardInfo Info { get; set; } = new CardInfo();        // TODO: Retirar esta referência: sempre que alterar uma carta, acabará alterando essas informações que devem ser estáticas.
         public CardState State { get; set; }
         public DateTime NextReviewDate { get; set; }
         public int MistakeCounter { get; set; }

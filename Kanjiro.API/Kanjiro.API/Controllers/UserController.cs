@@ -68,16 +68,16 @@ namespace Kanjiro.API.Controllers
         }
 
         [HttpPut("Synchronize")]
-        public async Task<ActionResult<ServiceResponse<string>>> SynchronizeChanges([FromBody] UserDTO user)
+        public async Task<ActionResult<ServiceResponse<UserDTO>>> SynchronizeChanges([FromBody] UserDTO user)
         {
             //TODO: Validar usuário e senha novamente ou token / refreshToken
 
-            var response = new ServiceResponse<string>();
-            response.ReturnData = string.Empty;
+            var response = new ServiceResponse<UserDTO>();
 
             try
             {
-                await _userService.SynchronizeChanges(user);
+                var userData = await _userService.SynchronizeChanges(user);
+                response.ReturnData = userData;
                 await _unitOfWork.SaveChanges();
             }
             catch (Exception ex)

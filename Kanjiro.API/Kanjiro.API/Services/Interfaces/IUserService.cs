@@ -4,6 +4,6 @@ namespace Kanjiro.API.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task SynchronizeChanges(UserDTO user);
+        public Task<UserDTO> SynchronizeChanges(UserDTO user);
     }
 }
