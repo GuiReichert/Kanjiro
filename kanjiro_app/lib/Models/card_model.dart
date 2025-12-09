@@ -15,6 +15,7 @@ class CardModel extends CardModelBase with _$CardModel {
     required super.mistakeCounter,
     required super.currentDifficultyMultiplier,
     required super.reviewDateCounter,
+    required super.userComment,
   });
 
   factory CardModel.fromJson(Map<String, dynamic> json) =>
@@ -32,6 +33,7 @@ abstract class CardModelBase with Store {
     required this.mistakeCounter,
     required this.currentDifficultyMultiplier,
     required this.reviewDateCounter,
+    required this.userComment,
   });
 
   final int id;
@@ -48,4 +50,6 @@ abstract class CardModelBase with Store {
   double currentDifficultyMultiplier;
   @observable
   int reviewDateCounter;
+  @observable
+  String userComment;
 }

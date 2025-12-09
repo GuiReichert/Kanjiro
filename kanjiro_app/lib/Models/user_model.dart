@@ -9,16 +9,21 @@ part 'user_model.g.dart';
 class UserModel {
   UserModel({
     required this.id,
+    required this.userName,
+    required this.nickName,
+    required this.lastSyncDate,
     required this.decks,
-    required this.userSettings,
+    required this.settings,
     required this.accountType,
   });
 
   final int id;
+  final String userName;
+  String nickName;
+  DateTime? lastSyncDate;
   final List<DeckModel> decks;
-  @JsonKey(name: "settings")
-  final UserSettingsModel userSettings;
-  final UserAccountType accountType;
+  final UserSettingsModel settings;
+  UserAccountType accountType;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

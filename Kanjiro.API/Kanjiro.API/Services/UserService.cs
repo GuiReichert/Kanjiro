@@ -14,22 +14,32 @@ namespace Kanjiro.API.Services
             _context = context;
         }
 
-        public async Task<UserDTO> SynchronizeChanges(UserDTO user)
+        public async Task<UserDTO> SynchronizeChanges(UserDTO user) //TODO: Melhorar essa desgrama
         {
             var currentUser = await _context.Users.Include(x => x.Settings).Include(x => x.Decks).ThenInclude(x => x.Cards).ThenInclude(x => x.Info).FirstOrDefaultAsync(x => x.Id == user.Id);
 
             if (currentUser == null) throw new Exception("Não foi possível encontrar a conta para sincronizar");
 
+            //User
+            currentUser.LastSyncDate = DateTime.UtcNow;
+            currentUser.NickName = user.NickName;
 
 
-            //currentUser.Settings.Setting = 
+            //Settings
 
-            foreach (var incomingDeck in user.Decks)        //TODO: Melhorar essa desgrama
+            currentUser.Settings.darkMode = user.Settings.darkMode;
+            currentUser.Settings.allowNotifications = user.Settings.allowNotifications;
+
+            //Decks
+
+            foreach (var incomingDeck in user.Decks)
             {
                 var currentDeck = currentUser.Decks.FirstOrDefault(x => x.Id == incomingDeck.Id);
                 if (currentDeck == null) throw new Exception("Erro ao sincronizar Decks.");
 
                 currentDeck.Name = incomingDeck.Name;
+
+                //Cards
 
                 foreach (var incomingCard in incomingDeck.Cards)
                 {
@@ -50,6 +60,8 @@ namespace Kanjiro.API.Services
             {
                 Id = currentUser.Id,
                 UserName = currentUser.UserName,
+                NickName = currentUser.NickName,
+                LastSyncDate = currentUser.LastSyncDate,
                 AccountType = currentUser.AccountType,
                 Decks = currentUser.Decks,
                 Settings = currentUser.Settings,

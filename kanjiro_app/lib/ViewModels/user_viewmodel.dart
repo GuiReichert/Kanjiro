@@ -23,7 +23,7 @@ abstract class UserViewModelBase with Store {
 
     user = userApi;
     deckViewmodel = UserDeckViewmodel(decks: user!.decks);
-    settingsViewmodel = UserSettingsViewmodel(userSettings: user!.userSettings);
+    settingsViewmodel = UserSettingsViewmodel(userSettings: user!.settings);
   }
 
   @action
@@ -38,6 +38,6 @@ abstract class UserViewModelBase with Store {
 
     user = userApi;
     deckViewmodel = UserDeckViewmodel(decks: user!.decks);
-    settingsViewmodel = UserSettingsViewmodel(userSettings: user!.userSettings);
+    settingsViewmodel = UserSettingsViewmodel(userSettings: user!.settings);
   }
 }

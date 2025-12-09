@@ -12,6 +12,7 @@ namespace Kanjiro.API.Models.Model
         public int MistakeCounter { get; set; }
         public float CurrentDifficultyMultiplier { get; set; } = 1;
         public int ReviewDateCounter { get; set; } = 1;
+        public string UserComment { get; set; } = string.Empty;
 
     }
 }

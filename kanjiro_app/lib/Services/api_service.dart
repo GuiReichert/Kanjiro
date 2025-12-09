@@ -39,7 +39,7 @@ class ApiService {
 
       return UserModel.fromJson(json);
     } on DioException catch (e) {
-      throw new Exception(e.message);
+      throw Exception(e.message);
     } catch (e) {
       throw Exception(e);
     }

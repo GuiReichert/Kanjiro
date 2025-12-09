@@ -19,7 +19,7 @@ namespace Kanjiro.API.Services
             _tokenService = tokenService;
         }
 
-        public async Task<string> Register(string username, string password)
+        public async Task<string> Register(string username, string password)    // TODO: Passar Register e Login para UserService e UserController
         {
             if (_context.Users.Any(x => x.UserName.ToLower() == username.ToLower())) throw new Exception("This Username is already in use.");
 
@@ -48,6 +48,8 @@ namespace Kanjiro.API.Services
             if (user == null || !ValidatePassword(username, password, user)) throw new Exception("Username or password incorrect.");
 
             var ValidationToken = _tokenService.CreateValidationJWT(user);
+
+            //TODO: Sincronizar / adicionar cartas ao logar?
 
             var userDTO = new UserDTO           // TODO: Eventualmente alterar para Mapper
             {
