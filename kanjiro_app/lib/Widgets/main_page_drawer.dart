@@ -24,7 +24,6 @@ class _MainPageDrawerState extends State<MainPageDrawer> {
           _categoriaDrawer('Categoria 2', Icons.texture_sharp),
           _botaoDrawer('Meu Deck', Icons.my_library_books),
           _botaoDrawer('Nivelamento', Icons.account_tree_outlined),
-          _botaoDrawer('Sincronizar', Icons.sync),
 
           Spacer(),
           _categoriaDrawer('Categoria 2', Icons.person),

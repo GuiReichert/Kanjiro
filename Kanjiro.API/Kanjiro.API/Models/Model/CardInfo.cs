@@ -6,7 +6,7 @@ namespace Kanjiro.API.Models.Model
     {
         public int Id { get; set; }
         public JLPT_Level Level { get; set; }
-
+        public string RomajiReading { get; set; } = string.Empty;
         public string Front { get; set; } = string.Empty;
         public string Back { get; set; } = string.Empty;
 

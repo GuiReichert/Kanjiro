@@ -1,6 +1,4 @@
-﻿using Kanjiro.API.Database;
-using Kanjiro.API.Models.Model;
-using Kanjiro.API.Services;
+﻿using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,8 +15,10 @@ namespace Kanjiro.API.Controllers
             _cardInfoService = cardInfoService;
         }
 
-        [HttpGet("KanjiInfo")]
-        public async Task<ActionResult<ServiceResponse<CardInfo>>> GetKanjiInfo(int id)
+        #region "Search"
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<CardInfo>>> SearchKanjiById(int id)
         {
             var response = new ServiceResponse<CardInfo>();
 
@@ -38,5 +38,29 @@ namespace Kanjiro.API.Controllers
             if (response.Success) return Ok(response);
             return BadRequest(response);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<ServiceResponse<List<CardInfo>>>> SearchKanjiByText([FromQuery] string? text)
+        {
+            var response = new ServiceResponse<List<CardInfo>>();
+
+            try
+            {
+                var cardInfos = await _cardInfoService.GetMultipleCardInfosByText(text);
+
+                response.ReturnData = cardInfos;
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+
+            if (response.Success) return Ok(response);
+            return BadRequest(response);
+        }
+
+        #endregion
     }
 }

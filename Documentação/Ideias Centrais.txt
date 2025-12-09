@@ -1,0 +1,35 @@
+> Basic - Pode sincronizar todo dia?
+> Premium - Pode sincronizar novas cartas previamente, para poder continuar adicionando cartas mesmo offline
+> Sistema de calculo das cartas para quem está inativo
+> Pesquisa e Dicionário
+  |- Poder verificar e pesquisar quaisquer kanjis
+  |- Premium pode adicionar um kanji pesquisado para o deck, mesmo que não esteja na programação
+  |- Premium pode fazer pesquisas offline, Basic apenas com internet.
+> Botar flags nas cartas que o usuário errou demais (X quantidade de vezes)
+> Criar um algoritmo que verifica a constância, pacing e retenção do usuário e organiza as cartas a partir disso.
+> Premium? Teste de nivelamento
+> Premium: Reteste de nivelamento
+> Usuário pode skipar certas cartas caso já conheça o kanji. Tratar elas como já vistas/ graduadas
+> Sempre que usuário terminar de revisar as cartas, aparecerá os próximos kanjis que ele irá aprender, e ele poderá escolher, quais ele quer (10 da lista de 30 por exemplo).
+> Visualizar a lista
+> Visualizar progresso com base nos níveis JLPT
+> User Comments para as cartas. usuário pode deixar comentários específicos para ajudá-lo a lembrar / memorizar as cartas.
+> Futuramente criar um sistema de comentários públicos?
+> Sistema de notificações do aplicativo
+> Sistema de enviar mensagens por whatsapp
+> Usuário pode enviar sugestões e bugs sobre o app.
+
+
+---- Sistema das cartas
+
+
+- graduated cards não aparecerão mais para o usuário. isso acontece depois que ele passa de uma certa quantidade de cartas.
+- cada kanji possui varias cartas. as cartas possuem o nível jlpt e o nível do app (aparecem de acordo com o nível do app). se o usuário não escolher pegar uma carta muitas vezes e a média do nível de cartas do usuário estiver 5 níveis acima (por exemplo) do nível dela, a carta será pega automaticamente. Isso servirá para manter uma consistência na dificuldade das cartas que o usuário terá (ao invés de possuir diversas cartas no nível 30, mas várias cartas no nível 2 que não estão no deck dele porque ele skipou).
+- a 'dificuldade' vai depender de quanto tempo o usuário demorou para responder a pergunta? ou talvez do quão próximo foi a resposta dele?
+- cada leitura possui uma lista de possíveis respostas próximas mas que não são a certa. Ex: RO - ROU, ROTSU, RATSU,RAN, etc. Na hora de aparecer a carta, o app escolherá aleatoriamente dentre a lista de possíveis respostas.
+- cada aparição terá a carta correta, uma quase correta, e duas outras completamente erradas?
+
+
+-----------
+
+-> Futuramente: Usar esse mesmo sistema para criar um jogo tipo rpg de cartas?

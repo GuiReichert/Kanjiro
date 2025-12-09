@@ -22,5 +22,15 @@ namespace Kanjiro.API.Services
 
             return cardInfo;
         }
+
+        public async Task<List<CardInfo>> GetMultipleCardInfosByText(string? text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return new List<CardInfo>();
+
+            var cardInfos = await _context.CardInfos.Where(x => x.Front.Contains(text) || x.Back.Contains(text) || x.RomajiReading.ToLower().Contains(text.ToLower())).ToListAsync();
+
+            return cardInfos;
+        }
+
     }
 }

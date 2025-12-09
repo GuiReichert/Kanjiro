@@ -28,20 +28,9 @@ class HomePage extends StatelessWidget {
                 mensagem = e.toString();
               }
 
-              showDialog(
-                context: context,
-                builder:
-                    (_) => AlertDialog(
-                      title: Text('Atenção'),
-                      content: Text(mensagem),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('OK'),
-                        ),
-                      ],
-                    ),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(mensagem)));
             },
             icon: Icon(Icons.sync),
           ),
