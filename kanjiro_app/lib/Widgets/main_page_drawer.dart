@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kanjiro_app/Views/kanji_search_page.dart';
 import 'package:kanjiro_app/Views/login_page.dart';
 
 class MainPageDrawer extends StatefulWidget {
@@ -18,7 +19,15 @@ class _MainPageDrawerState extends State<MainPageDrawer> {
         children: [
           SizedBox(height: 50),
           _categoriaDrawer('Categoria 1', Icons.school),
-          _botaoDrawer('Pesquisa', Icons.search),
+          _botaoDrawer(
+            'Pesquisa',
+            Icons.search,
+            onButtonTap:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => KanjiSearchPage()),
+                ),
+          ),
           _botaoDrawer('Progresso', Icons.stacked_line_chart_rounded),
 
           _categoriaDrawer('Categoria 2', Icons.texture_sharp),

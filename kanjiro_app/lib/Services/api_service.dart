@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:kanjiro_app/Models/card_info_model.dart';
 import 'package:kanjiro_app/Models/user_model.dart';
+import 'package:kanjiro_app/Utils/Exceptions/kanjiro_api_exception.dart';
 
 class ApiService {
+  static final apiUrl = 'http://10.0.2.2:5288';
   static Future<UserModel> userLogin(String userName, String password) async {
     try {
       final dio = Dio();
 
       final response = await dio.post(
-        'http://10.0.2.2:5288/User/Login',
+        '$apiUrl/User/Login',
         data: {
           "Username": userName,
           "Password": password,
@@ -20,7 +23,11 @@ class ApiService {
       var json = response.data['returnData'];
       return UserModel.fromJson(json);
     } on DioException catch (e) {
-      throw Exception(e.message);
+      if (e.response != null) {
+        throw KanjiroApiException(message: e.response!.data['message']);
+      }
+
+      throw Exception('Erro inesperado: ${e.message}');
     } catch (e) {
       throw Exception(e);
     }
@@ -31,7 +38,7 @@ class ApiService {
       final dio = Dio();
 
       final response = await dio.put(
-        'http://10.0.2.2:5288/User/Synchronize',
+        '$apiUrl/User/Synchronize',
         data: user.toJson(),
       );
 
@@ -39,7 +46,36 @@ class ApiService {
 
       return UserModel.fromJson(json);
     } on DioException catch (e) {
-      throw Exception(e.message);
+      if (e.response != null) {
+        throw KanjiroApiException(message: e.response!.data['message']);
+      }
+
+      throw Exception('Erro inesperado: ${e.message}');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  static Future<List<CardInfoModel>> searchKanjiByText(String text) async {
+    try {
+      final dio = Dio();
+
+      final response = await dio.get(
+        '$apiUrl/CardInfo',
+        queryParameters: {'text': text},
+      );
+
+      var json = response.data['returnData'];
+
+      return (json as List)
+          .map((item) => CardInfoModel.fromJson(item))
+          .toList();
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw KanjiroApiException(message: e.response!.data['message']);
+      }
+
+      throw Exception('Erro inesperado: ${e.message}');
     } catch (e) {
       throw Exception(e);
     }

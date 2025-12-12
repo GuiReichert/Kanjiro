@@ -129,16 +129,36 @@ class LoginPage extends StatelessWidget {
   }
 
   Future<void> _pressLogin(BuildContext ctx) async {
-    await userViewModel.loadUser(
-      txtUserController.text,
-      txtPasswordController.text,
-    );
+    try {
+      await userViewModel.loadUser(
+        txtUserController.text,
+        txtPasswordController.text,
+      );
 
-    Navigator.pushReplacement(
-      ctx,
-      MaterialPageRoute(
-        builder: (ctx) => HomePage(userViewModel: userViewModel),
-      ),
-    );
+      Navigator.pushReplacement(
+        ctx,
+        MaterialPageRoute(
+          builder: (ctx) => HomePage(userViewModel: userViewModel),
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: ctx,
+        builder:
+            (_) => AlertDialog(
+              title: Text('Atenção'),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    return;
+                  },
+                  child: Text('Ok'),
+                ),
+              ],
+            ),
+      );
+    }
   }
 }

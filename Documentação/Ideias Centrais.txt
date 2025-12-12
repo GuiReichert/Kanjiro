@@ -33,3 +33,9 @@
 -----------
 
 -> Futuramente: Usar esse mesmo sistema para criar um jogo tipo rpg de cartas?
+
+
+--------- Sistema
+
+> Implementar sistema de Cache? 
+
