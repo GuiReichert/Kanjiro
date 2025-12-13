@@ -52,7 +52,7 @@ class ApiService {
 
       throw Exception('Erro inesperado: ${e.message}');
     } catch (e) {
-      throw Exception(e);
+      throw Exception(e.toString());
     }
   }
 
@@ -77,7 +77,24 @@ class ApiService {
 
       throw Exception('Erro inesperado: ${e.message}');
     } catch (e) {
-      throw Exception(e);
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<void> addKanjiToDeck(int cardInfoId, int deckId) async {
+    try {
+      final dio = Dio();
+
+      await dio.post(
+        '$apiUrl/Deck/Card/Info/$cardInfoId',
+        options: Options(headers: {'deckId': deckId}),
+      );
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw KanjiroApiException(message: e.response!.data['message']);
+      }
+    } catch (e) {
+      throw Exception('Erro inesperado: ${e.toString()}');
     }
   }
 }

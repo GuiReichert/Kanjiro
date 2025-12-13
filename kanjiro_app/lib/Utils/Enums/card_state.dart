@@ -6,9 +6,11 @@ enum CardState {
   @JsonValue(0)
   New,
   @JsonValue(1)
-  Reviewed,
+  Learning,
   @JsonValue(2)
-  Flagged,
+  Reviewing,
   @JsonValue(3)
+  Flagged,
+  @JsonValue(4)
   Graduated,
 }

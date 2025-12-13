@@ -12,8 +12,13 @@ abstract class KanjiSearchViewmodelBase with Store {
   List<CardInfoModel> searchResults = [];
 
   @action
-  Future<void> searchKanjiByText(text) async {
+  Future<void> searchKanjiByText(String text) async {
     var teste = await ApiService.searchKanjiByText(text);
     searchResults = teste;
+  }
+
+  @action
+  Future<void> addKanjiToDeck(CardInfoModel card, int deckId) async {
+    await ApiService.addKanjiToDeck(card.id, deckId);
   }
 }

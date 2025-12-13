@@ -2,6 +2,6 @@
 {
     public enum UserAccountType
     {
-        Normal,Premium,Premium_Plus
+        Normal, Premium, Premium_Plus, Developer
     }
 }

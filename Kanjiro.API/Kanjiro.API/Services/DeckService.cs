@@ -1,7 +1,6 @@
 ﻿using Kanjiro.API.Database;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kanjiro.API.Services
@@ -18,8 +17,8 @@ namespace Kanjiro.API.Services
         public async Task<CardInfo> ShowCardToReview(int DeckId)
         {
             var cardToReview = await _context.Cards.Include(x => x.Info).FirstOrDefaultAsync(x => x.NextReviewDate.Date < DateTime.Now && x.State != Enums.CardState.Flagged && x.DeckId == DeckId);
-            
-            if (cardToReview == null ) throw new Exception("Nenhuma carta encontrada para revisar.");
+
+            if (cardToReview == null) throw new Exception("Nenhuma carta encontrada para revisar.");
 
             return cardToReview.Info;
         }
@@ -29,7 +28,7 @@ namespace Kanjiro.API.Services
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user == null) throw new Exception("Usuário não encontrado.");
-            var newDeck = new Deck { Name = deckName, UserId = user.Id};
+            var newDeck = new Deck { Name = deckName, UserId = user.Id };
 
             await _context.Decks.AddAsync(newDeck);
 
@@ -46,7 +45,8 @@ namespace Kanjiro.API.Services
 
             if (DeckToAdd == null) throw new Exception("Não foi possível encontrar o deck escolhido.");
 
-            var cardToAdd = new Card {
+            var cardToAdd = new Card
+            {
                 Info = cardInfo,
                 NextReviewDate = DateTime.Now,
                 State = Enums.CardState.New,
@@ -54,8 +54,9 @@ namespace Kanjiro.API.Services
                 MistakeCounter = 0,
                 CurrentDifficultyMultiplier = 1,
                 ReviewDateCounter = 0,
-                };
-                
+                UserComment = string.Empty,
+            };
+
             await _context.Cards.AddAsync(cardToAdd);
 
             return cardToAdd;

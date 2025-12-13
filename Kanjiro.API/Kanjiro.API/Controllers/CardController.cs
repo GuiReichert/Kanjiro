@@ -1,5 +1,4 @@
-﻿using Kanjiro.API.Database;
-using Kanjiro.API.Models.Model;
+﻿using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,8 +18,8 @@ namespace Kanjiro.API.Controllers
         }
 
 
-        [HttpPost()]
-        public async Task<ActionResult<ServiceResponse<Card>>> PostCardToDeck(int cardInfoId, int deckId)
+        [HttpPost("Info/{cardInfoId}")]
+        public async Task<ActionResult<ServiceResponse<Card>>> PostCardToDeck(int cardInfoId, [FromHeader] int deckId)
         {
             var response = new ServiceResponse<Card>();
             try

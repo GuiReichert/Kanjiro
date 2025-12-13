@@ -2,6 +2,6 @@
 {
     public enum CardState
     {
-        New, Reviewed, Flagged, Graduated
+        New, Learning, Reviewing, Flagged, Graduated
     }
 }

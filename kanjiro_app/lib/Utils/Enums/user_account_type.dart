@@ -9,4 +9,6 @@ enum UserAccountType {
   Premium,
   @JsonValue(3)
   Premium_Plus,
+  @JsonValue(4)
+  Developer,
 }
