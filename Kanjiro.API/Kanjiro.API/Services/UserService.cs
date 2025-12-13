@@ -1,6 +1,7 @@
 ﻿using Kanjiro.API.Database;
 using Kanjiro.API.Models.DTO_s;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kanjiro.API.Services
@@ -18,7 +19,7 @@ namespace Kanjiro.API.Services
         {
             var currentUser = await _context.Users.Include(x => x.Settings).Include(x => x.Decks).ThenInclude(x => x.Cards).ThenInclude(x => x.Info).FirstOrDefaultAsync(x => x.Id == user.Id);
 
-            if (currentUser == null) throw new Exception("Não foi possível encontrar a conta para sincronizar");
+            if (currentUser == null) throw new KanjiroCustomException("Não foi possível encontrar a conta para sincronizar");
 
             //User
             currentUser.LastSyncDate = DateTime.UtcNow;
@@ -35,7 +36,7 @@ namespace Kanjiro.API.Services
             foreach (var incomingDeck in user.Decks)
             {
                 var currentDeck = currentUser.Decks.FirstOrDefault(x => x.Id == incomingDeck.Id);
-                if (currentDeck == null) throw new Exception("Erro ao sincronizar Decks.");
+                if (currentDeck == null) throw new KanjiroCustomException("Erro ao sincronizar Decks.");
 
                 currentDeck.Name = incomingDeck.Name;
 
@@ -50,7 +51,7 @@ namespace Kanjiro.API.Services
                     }
 
                     var currentCard = currentDeck.Cards.FirstOrDefault(x => x.Id == incomingCard.Id);
-                    if (currentCard == null) throw new Exception("Erro ao sincronizar Cartas.");
+                    if (currentCard == null) throw new KanjiroCustomException("Erro ao sincronizar Cartas.");
 
                     currentCard.NextReviewDate = incomingCard.NextReviewDate;
                     currentCard.ReviewDateCounter = incomingCard.ReviewDateCounter;

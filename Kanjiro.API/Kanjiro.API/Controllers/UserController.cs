@@ -1,6 +1,7 @@
 ﻿using Kanjiro.API.Models.DTO_s;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kanjiro.API.Controllers
@@ -26,45 +27,22 @@ namespace Kanjiro.API.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<string>>> RegisterUser(string Username, string Password)
         {
-            var response = new ServiceResponse<string>();
-
-            try
+            return await KanjiroApiController.Execute(async () =>
             {
                 var data = await _authService.Register(Username, Password);
                 await _unitOfWork.SaveChanges();
 
-                response.ReturnData = data;
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-            }
-
-            if (response.Success) return Ok(response);
-            return BadRequest(response);
+                return data;
+            });
         }
 
         [HttpPost("Login")]
         public async Task<ActionResult<ServiceResponse<UserDTO>>> Login([FromBody] LoginRequestModel loginRequest)
         {
-            var response = new ServiceResponse<UserDTO>();
-
-            try
+            return await KanjiroApiController.Execute(async () =>
             {
-                var userData = await _authService.Login(loginRequest.Username, loginRequest.Password);
-
-                response.ReturnData = userData;
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-            }
-
-            if (response.Success) return Ok(response);
-            return BadRequest(response);
-
+                return await _authService.Login(loginRequest.Username, loginRequest.Password);
+            });
         }
 
         [HttpPut("Synchronize")]
@@ -72,22 +50,13 @@ namespace Kanjiro.API.Controllers
         {
             //TODO: Validar usuário e senha novamente ou token / refreshToken
 
-            var response = new ServiceResponse<UserDTO>();
-
-            try
+            return await KanjiroApiController.Execute(async () =>
             {
                 var userData = await _userService.SynchronizeChanges(user);
-                response.ReturnData = userData;
                 await _unitOfWork.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-            }
-            if (response.Success) return Ok(response);
-            return BadRequest(response);
 
+                return userData;
+            });
         }
 
         #endregion

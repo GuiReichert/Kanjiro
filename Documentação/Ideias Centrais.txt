@@ -18,6 +18,10 @@
 > Sistema de notificações do aplicativo
 > Sistema de enviar mensagens por whatsapp
 > Usuário pode enviar sugestões e bugs sobre o app.
+> Modo Dev: permite alterar CardInfos
+> Implementar escrita de kanjis (tracing) quando estiver aprendendo? 
+> Sistema de criar novo deck / resetar progresso (não apaga, apenas seta novo 'CurrentDeckId')
+> Implementar tabela de Logs e Sugestões dos usuários
 
 
 ---- Sistema das cartas

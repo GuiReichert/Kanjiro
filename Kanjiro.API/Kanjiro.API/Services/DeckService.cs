@@ -1,6 +1,7 @@
 ﻿using Kanjiro.API.Database;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kanjiro.API.Services
@@ -16,9 +17,9 @@ namespace Kanjiro.API.Services
 
         public async Task<CardInfo> ShowCardToReview(int DeckId)
         {
-            var cardToReview = await _context.Cards.Include(x => x.Info).FirstOrDefaultAsync(x => x.NextReviewDate.Date < DateTime.Now && x.State != Enums.CardState.Flagged && x.DeckId == DeckId);
+            var cardToReview = await _context.Cards.Include(x => x.Info).AsNoTracking().FirstOrDefaultAsync(x => x.NextReviewDate.Date < DateTime.Now && x.State != Enums.CardState.Flagged && x.DeckId == DeckId);
 
-            if (cardToReview == null) throw new Exception("Nenhuma carta encontrada para revisar.");
+            if (cardToReview == null) throw new KanjiroCustomException("Nenhuma carta encontrada para revisar.");
 
             return cardToReview.Info;
         }
@@ -27,7 +28,7 @@ namespace Kanjiro.API.Services
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
-            if (user == null) throw new Exception("Usuário não encontrado.");
+            if (user == null) throw new KanjiroCustomException("Usuário não encontrado.");
             var newDeck = new Deck { Name = deckName, UserId = user.Id };
 
             await _context.Decks.AddAsync(newDeck);
@@ -39,11 +40,11 @@ namespace Kanjiro.API.Services
         {
             var cardInfo = await _context.CardInfos.FirstOrDefaultAsync(x => x.Id == cardInfoId);
 
-            if (cardInfo == null) throw new Exception("Não foi possível encontrar a carta escolhida.");
+            if (cardInfo == null) throw new KanjiroCustomException("Não foi possível encontrar a carta escolhida.");
 
             var DeckToAdd = await _context.Decks.FirstOrDefaultAsync(y => y.Id == deckId);
 
-            if (DeckToAdd == null) throw new Exception("Não foi possível encontrar o deck escolhido.");
+            if (DeckToAdd == null) throw new KanjiroCustomException("Não foi possível encontrar o deck escolhido.");
 
             var cardToAdd = new Card
             {

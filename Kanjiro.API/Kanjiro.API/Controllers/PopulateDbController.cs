@@ -1,10 +1,8 @@
 ﻿using Kanjiro.API.Database;
-using Kanjiro.API.Enums;
 using Kanjiro.API.Models.Model;
-using Kanjiro.API.Models.PopulateModel;
 using Kanjiro.API.Services;
+using Kanjiro.API.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace Kanjiro.API.Controllers
 {
@@ -23,28 +21,16 @@ namespace Kanjiro.API.Controllers
         [HttpGet()]
         public async Task<ActionResult<ServiceResponse<string>>> PopulateAPI()
         {
-            var data = new ServiceResponse<string>();
-            try
+            return await KanjiroApiController.Execute(async () =>
             {
+                var Kanjis = _populateService.PopulateCards();
 
-                var Kanjis_N5 = _populateService.PopulateCards();
-
-                await _context.CardInfos.AddRangeAsync(Kanjis_N5);
+                await _context.CardInfos.AddRangeAsync(Kanjis);
                 await _context.SaveChangesAsync();
 
-                data.ReturnData = "dados salvos com sucesso";
-            }
-            catch (Exception ex)
-            {
-                data.Success = false;
-                data.Message = ex.Message;
-                data.ReturnData = ex.Message;
+                return "Banco de dados populado com sucesso.";
 
-                return BadRequest(data);
-            }
-
-            if (!data.Success) return BadRequest(data);
-            return Ok(data);
+            });
         }
 
     }

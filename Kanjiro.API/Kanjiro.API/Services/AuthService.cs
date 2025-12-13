@@ -4,6 +4,7 @@ using Kanjiro.API.Database;
 using Kanjiro.API.Models.DTO_s;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kanjiro.API.Services
@@ -21,7 +22,7 @@ namespace Kanjiro.API.Services
 
         public async Task<string> Register(string username, string password)    // TODO: Passar Register e Login para UserService e UserController
         {
-            if (_context.Users.Any(x => x.UserName.ToLower() == username.ToLower())) throw new Exception("This Username is already in use.");
+            if (_context.Users.Any(x => x.UserName.ToLower() == username.ToLower())) throw new KanjiroCustomException("This Username is already in use.");
 
             // Adicionar validação para senhas com regex
 
@@ -44,8 +45,8 @@ namespace Kanjiro.API.Services
 
         public async Task<UserDTO> Login(string username, string password)
         {
-            var user = await _context.Users.Include(x => x.Decks).ThenInclude(x => x.Cards).ThenInclude(x => x.Info).Include(x => x.Settings).FirstOrDefaultAsync(x => x.UserName == username);
-            if (user == null || !ValidatePassword(username, password, user)) throw new Exception("Username or password incorrect.");
+            var user = await _context.Users.Include(x => x.Decks).ThenInclude(x => x.Cards).ThenInclude(x => x.Info).Include(x => x.Settings).AsNoTracking().FirstOrDefaultAsync(x => x.UserName == username);
+            if (user == null || !ValidatePassword(username, password, user)) throw new KanjiroCustomException("Username or password incorrect.");
 
             var ValidationToken = _tokenService.CreateValidationJWT(user);
 

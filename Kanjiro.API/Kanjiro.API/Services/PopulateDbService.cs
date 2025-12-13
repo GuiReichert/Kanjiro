@@ -1,7 +1,8 @@
-﻿using Kanjiro.API.Enums;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Kanjiro.API.Enums;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Models.PopulateModel;
+using Kanjiro.API.Utils.Exceptions;
 
 namespace Kanjiro.API.Services
 {
@@ -15,11 +16,13 @@ namespace Kanjiro.API.Services
 
             KanjiRoot root = JsonSerializer.Deserialize<KanjiRoot>(arquivo_txt);
 
-            var cards = root.Kanjis.Values.Where(x => x.Jlpt == 5 || x.Jlpt == 4 || x.Jlpt == 3 || x.Jlpt == 2|| x.Jlpt == 1).Select(k => new CardInfo()
+            if (root == null) throw new KanjiroCustomException("Não foi possível encontrar arquivo ou converter JSON.");
+
+            var cards = root.Kanjis.Values.Where(x => x.Jlpt == 5 || x.Jlpt == 4 || x.Jlpt == 3 || x.Jlpt == 2 || x.Jlpt == 1).Select(k => new CardInfo()
             {
                 Front = k.Kanji,
                 Back = string.Join(",", k.OnReadings.Concat(k.KunReadings)),
-                Level = (JLPT_Level)k.Jlpt
+                Level = (JLPT_Level?)k.Jlpt ?? JLPT_Level.None
             }).ToList();
 
             return cards;

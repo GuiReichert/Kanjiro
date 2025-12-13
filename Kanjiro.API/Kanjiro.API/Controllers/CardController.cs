@@ -1,5 +1,6 @@
 ﻿using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kanjiro.API.Controllers
@@ -21,23 +22,13 @@ namespace Kanjiro.API.Controllers
         [HttpPost("Info/{cardInfoId}")]
         public async Task<ActionResult<ServiceResponse<Card>>> PostCardToDeck(int cardInfoId, [FromHeader] int deckId)
         {
-            var response = new ServiceResponse<Card>();
-            try
+            return await KanjiroApiController.Execute(async () =>
             {
                 var card = await _deckService.AddCardToDeck(cardInfoId, deckId);
                 await _unitOfWork.SaveChanges();
 
-
-                response.ReturnData = card;
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-            }
-            if (response.Success) Ok(response);
-            return BadRequest(response);
-
+                return card;
+            });
         }
     }
 }
