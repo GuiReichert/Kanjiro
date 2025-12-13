@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:injector/injector.dart';
 import 'package:kanjiro_app/ViewModels/kanji_search_viewmodel.dart';
+import 'package:kanjiro_app/Views/kanji_info_card.dart';
 
 class KanjiSearchPage extends StatefulWidget {
   const KanjiSearchPage({super.key});
@@ -49,18 +50,28 @@ class _KanjiSearchPageState extends State<KanjiSearchPage> {
     return ListView(
       children: [
         for (var result in viewmodel.searchResults)
-          Card(
-            color: Colors.grey,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(result.front),
-                Text(result.back),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios),
-                ),
-              ],
+          InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return KanjiInfoCard(cardInfo: result);
+                },
+              );
+            },
+            child: Card(
+              color: Colors.grey,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(result.front),
+                  Text(result.back),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.arrow_forward_ios),
+                  ),
+                ],
+              ),
             ),
           ),
       ],

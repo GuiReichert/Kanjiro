@@ -5,13 +5,18 @@ import 'package:kanjiro_app/Widgets/background_claro_widget.dart';
 import 'package:kanjiro_app/Widgets/main_page_drawer.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.userViewModel});
 
   final UserViewmodel userViewModel;
 
   @override
-  Widget build(BuildContext context) {
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(context) {
     return Scaffold(
       drawer: MainPageDrawer(),
       appBar: AppBar(
@@ -23,11 +28,14 @@ class HomePage extends StatelessWidget {
               var mensagem = 'Sincronização concluída com sucesso.';
 
               try {
-                await userViewModel.synchronizeChanges();
+                await widget.userViewModel.synchronizeChanges();
               } catch (e) {
                 mensagem = e.toString();
               }
 
+              if (!context.mounted) return;
+
+              ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(mensagem)));
@@ -40,13 +48,13 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: KanjiroBackgroundClaro(
-        widgetFilho: Observer(builder: (_) => conteudo(context)),
+        widgetFilho: Observer(builder: (_) => conteudo()),
       ),
       bottomNavigationBar: barraInferior(),
     );
   }
 
-  conteudo(context) {
+  conteudo() {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 20, bottom: 30),
@@ -73,7 +81,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Bom dia, vamos estudar seu deck hoje? \n Cartas a revisar: ${userViewModel.deckViewmodel.cardsToReview.length}',
+                'Bom dia, vamos estudar seu deck hoje? \n Cartas a revisar: ${widget.userViewModel.deckViewmodel.cardsToReview.length}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
@@ -141,7 +149,7 @@ class HomePage extends StatelessWidget {
   }
 
   void _revisarDeck(ctx) {
-    if (userViewModel.deckViewmodel.cardsToReview.isEmpty) {
+    if (widget.userViewModel.deckViewmodel.cardsToReview.isEmpty) {
       showDialog(
         context: ctx,
         builder:
@@ -164,7 +172,7 @@ class HomePage extends StatelessWidget {
       MaterialPageRoute(
         builder:
             (ctx) => CardReviewPage(
-              deckViewModel: userViewModel.deckViewmodel,
+              deckViewModel: widget.userViewModel.deckViewmodel,
             ),
       ),
     );

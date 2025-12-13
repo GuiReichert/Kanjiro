@@ -43,6 +43,12 @@ namespace Kanjiro.API.Services
 
                 foreach (var incomingCard in incomingDeck.Cards)
                 {
+                    if (incomingCard.Id == 0)  // Carta adicionada ao deck pelo usuário
+                    {
+                        currentDeck.Cards.Add(incomingCard);
+                        continue;
+                    }
+
                     var currentCard = currentDeck.Cards.FirstOrDefault(x => x.Id == incomingCard.Id);
                     if (currentCard == null) throw new Exception("Erro ao sincronizar Cartas.");
 

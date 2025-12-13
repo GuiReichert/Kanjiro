@@ -4,10 +4,16 @@ import 'package:kanjiro_app/ViewModels/user_viewmodel.dart';
 import 'package:kanjiro_app/Views/home_page.dart';
 import 'package:kanjiro_app/Widgets/background_escuro_widget.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final userViewModel = Injector.appInstance.get<UserViewmodel>();
+
   final txtUserController = TextEditingController();
   final txtPasswordController = TextEditingController();
 
@@ -116,7 +122,7 @@ class LoginPage extends StatelessWidget {
                 Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    _pressLogin(ctx);
+                    _pressLogin();
                   },
                   child: Text('Login'),
                 ),
@@ -128,22 +134,24 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Future<void> _pressLogin(BuildContext ctx) async {
+  Future<void> _pressLogin() async {
     try {
       await userViewModel.loadUser(
         txtUserController.text,
         txtPasswordController.text,
       );
 
+      if (!mounted) return;
+
       Navigator.pushReplacement(
-        ctx,
+        context,
         MaterialPageRoute(
           builder: (ctx) => HomePage(userViewModel: userViewModel),
         ),
       );
     } catch (e) {
       showDialog(
-        context: ctx,
+        context: context,
         builder:
             (_) => AlertDialog(
               title: Text('Atenção'),
@@ -151,7 +159,7 @@ class LoginPage extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(ctx);
+                    Navigator.pop(context);
                     return;
                   },
                   child: Text('Ok'),
