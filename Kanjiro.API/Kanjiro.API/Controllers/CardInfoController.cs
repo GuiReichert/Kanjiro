@@ -21,7 +21,7 @@ namespace Kanjiro.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<CardInfo>>> SearchKanjiById(int id)
         {
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 return await _cardInfoService.GetCardInfoById(id);
             });
@@ -30,7 +30,7 @@ namespace Kanjiro.API.Controllers
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<CardInfo>>>> SearchKanjiByText([FromQuery] string? text)
         {
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 return await _cardInfoService.GetMultipleCardInfosByText(text);
             });

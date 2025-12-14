@@ -8,7 +8,7 @@ namespace Kanjiro.API.Utils
     {
         static string mensagemErroInesperadoApi = "Ocorreu um erro inesperado na API. Verifique os logs para mais informações.";
 
-        public static async Task<ActionResult<ServiceResponse<T>>> Execute<T>(Func<Task<T>> action)
+        public static async Task<ActionResult<ServiceResponse<T>>> HandleRequest<T>(Func<Task<T>> action)
         {
             try
             {

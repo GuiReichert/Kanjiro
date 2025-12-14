@@ -21,7 +21,7 @@ namespace Kanjiro.API.Controllers
         [HttpGet()]
         public async Task<ActionResult<ServiceResponse<string>>> PopulateAPI()
         {
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 var Kanjis = _populateService.PopulateCards();
 

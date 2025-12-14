@@ -2,6 +2,6 @@
 {
     public enum CardDifficulty
     {
-        Mistake, Hard, Normal, Easy
+        EASY, NORMAL, HARD, MISTAKE
     }
 }

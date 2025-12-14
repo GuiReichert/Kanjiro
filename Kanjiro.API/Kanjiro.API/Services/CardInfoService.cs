@@ -32,6 +32,5 @@ namespace Kanjiro.API.Services
 
             return cardInfos;
         }
-
     }
 }

@@ -27,7 +27,7 @@ namespace Kanjiro.API.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<string>>> RegisterUser(string Username, string Password)
         {
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 var data = await _authService.Register(Username, Password);
                 await _unitOfWork.SaveChanges();
@@ -39,7 +39,7 @@ namespace Kanjiro.API.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<ServiceResponse<UserDTO>>> Login([FromBody] LoginRequestModel loginRequest)
         {
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 return await _authService.Login(loginRequest.Username, loginRequest.Password);
             });
@@ -50,7 +50,7 @@ namespace Kanjiro.API.Controllers
         {
             //TODO: Validar usuário e senha novamente ou token / refreshToken
 
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 var userData = await _userService.SynchronizeChanges(user);
                 await _unitOfWork.SaveChanges();

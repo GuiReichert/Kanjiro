@@ -22,7 +22,7 @@ namespace Kanjiro.API.Controllers
         [HttpPost("Info/{cardInfoId}")]
         public async Task<ActionResult<ServiceResponse<Card>>> PostCardToDeck(int cardInfoId, [FromHeader] int deckId)
         {
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 var card = await _deckService.AddCardToDeck(cardInfoId, deckId);
                 await _unitOfWork.SaveChanges();

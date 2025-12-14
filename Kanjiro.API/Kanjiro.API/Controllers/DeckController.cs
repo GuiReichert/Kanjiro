@@ -21,7 +21,7 @@ namespace Kanjiro.API.Controllers
         [HttpGet("Review")]
         public async Task<ActionResult<ServiceResponse<CardInfo>>> GetReviewCard(int deckId)
         {
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 return await _deckService.ShowCardToReview(deckId);
             });
@@ -30,7 +30,7 @@ namespace Kanjiro.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<Deck>>> PostDeck(int userId, string deckName)
         {
-            return await KanjiroApiController.Execute(async () =>
+            return await KanjiroApiController.HandleRequest(async () =>
             {
                 var deck = await _deckService.AddDeck(deckName, userId);
                 await _unitOfWork.SaveChanges();
