@@ -1,8 +1,8 @@
 ﻿using Kanjiro.API.Database;
-using Kanjiro.API.Enums;
 using Kanjiro.API.Models.Model;
+using Kanjiro.API.Utils.Enums;
 
-namespace Kanjiro.API.Utils
+namespace Kanjiro.API.Utils.Handlers
 {
     public static class LogHandler
     {

@@ -1,7 +1,7 @@
 ﻿using Kanjiro.API.Database;
-using Kanjiro.API.Enums;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils.Enums;
 using Kanjiro.API.Utils.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,7 +46,7 @@ namespace Kanjiro.API.Services
                 {
                     Info = kanjiInfo,
                     NextReviewDate = DateTime.UtcNow,
-                    State = Enums.CardState.NEW,
+                    State = CardState.NEW,
                     DeckId = newDeck.Id,
                     MistakeCounter = 0,
                     CurrentDifficultyMultiplier = 1,
@@ -65,7 +65,7 @@ namespace Kanjiro.API.Services
                 {
                     Info = kanjiInfo,
                     NextReviewDate = DateTime.UtcNow,
-                    State = Enums.CardState.NEW,
+                    State = CardState.NEW,
                     DeckId = newDeck.Id,
                     MistakeCounter = 0,
                     CurrentDifficultyMultiplier = 1,

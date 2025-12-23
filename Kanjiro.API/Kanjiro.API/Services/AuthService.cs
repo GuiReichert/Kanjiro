@@ -4,6 +4,7 @@ using Kanjiro.API.Database;
 using Kanjiro.API.Models.DTO_s;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils.Enums;
 using Kanjiro.API.Utils.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +35,7 @@ namespace Kanjiro.API.Services
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Decks = new List<Deck>(),
-                AccountType = Enums.UserAccountType.NORMAL,
+                AccountType = UserAccountType.NORMAL,
                 Settings = new UserSettings()
             };
 

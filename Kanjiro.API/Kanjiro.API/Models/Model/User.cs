@@ -1,4 +1,4 @@
-﻿using Kanjiro.API.Enums;
+﻿using Kanjiro.API.Utils.Enums;
 
 namespace Kanjiro.API.Models.Model
 {

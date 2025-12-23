@@ -1,7 +1,7 @@
 ﻿using Kanjiro.API.Database;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services;
-using Kanjiro.API.Utils;
+using Kanjiro.API.Utils.Handlers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kanjiro.API.Controllers

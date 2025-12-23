@@ -1,4 +1,4 @@
-﻿namespace Kanjiro.API.Enums
+﻿namespace Kanjiro.API.Utils.Enums
 {
     public enum LogOrigin
     {

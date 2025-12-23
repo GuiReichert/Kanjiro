@@ -1,8 +1,8 @@
-﻿using Kanjiro.API.Enums;
-using Kanjiro.API.Models.Model;
+﻿using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
-using Kanjiro.API.Utils;
+using Kanjiro.API.Utils.Enums;
 using Kanjiro.API.Utils.Exceptions;
+using Kanjiro.API.Utils.Handlers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kanjiro.API.Controllers

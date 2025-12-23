@@ -2,7 +2,7 @@
 using Kanjiro.API.Utils.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kanjiro.API.Utils
+namespace Kanjiro.API.Utils.Handlers
 {
     public static class KanjiroApiController
     {

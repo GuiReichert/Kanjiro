@@ -1,5 +1,5 @@
-﻿using Kanjiro.API.Enums;
-using Kanjiro.API.Models.Model;
+﻿using Kanjiro.API.Models.Model;
+using Kanjiro.API.Utils.Enums;
 
 namespace Kanjiro.API.Models.DTO_s
 {

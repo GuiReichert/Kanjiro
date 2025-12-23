@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using Kanjiro.API.Enums;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Models.PopulateModel;
+using Kanjiro.API.Utils.Enums;
 using Kanjiro.API.Utils.Exceptions;
 
 namespace Kanjiro.API.Services

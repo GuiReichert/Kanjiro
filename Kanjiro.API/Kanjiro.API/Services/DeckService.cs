@@ -1,6 +1,7 @@
 ﻿using Kanjiro.API.Database;
 using Kanjiro.API.Models.Model;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils.Enums;
 using Kanjiro.API.Utils.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ namespace Kanjiro.API.Services
 
         public async Task<CardInfo> ShowCardToReview(int DeckId)
         {
-            var cardToReview = await _context.Cards.Include(x => x.Info).AsNoTracking().FirstOrDefaultAsync(x => x.NextReviewDate.Date < DateTime.UtcNow && x.State != Enums.CardState.FLAGGED && x.DeckId == DeckId);
+            var cardToReview = await _context.Cards.Include(x => x.Info).AsNoTracking().FirstOrDefaultAsync(x => x.NextReviewDate.Date < DateTime.UtcNow && x.State != CardState.FLAGGED && x.DeckId == DeckId);
 
             if (cardToReview == null) throw new KanjiroCustomException("Nenhuma carta encontrada para revisar.");
 
@@ -50,7 +51,7 @@ namespace Kanjiro.API.Services
             {
                 Info = cardInfo,
                 NextReviewDate = DateTime.UtcNow,
-                State = Enums.CardState.NEW,
+                State = CardState.NEW,
                 DeckId = DeckToAdd.Id,
                 MistakeCounter = 0,
                 CurrentDifficultyMultiplier = 1,
