@@ -22,7 +22,7 @@ namespace Kanjiro.API.Services
             {
                 Front = k.Kanji,
                 Back = string.Join(",", k.OnReadings.Concat(k.KunReadings)),
-                Level = (JLPT_Level?)k.Jlpt ?? JLPT_Level.None
+                Level = (JLPT_Level?)k.Jlpt ?? JLPT_Level.NONE
             }).ToList();
 
             return cards;

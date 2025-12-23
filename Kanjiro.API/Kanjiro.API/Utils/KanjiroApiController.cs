@@ -18,7 +18,7 @@ namespace Kanjiro.API.Utils
             {
                 return new BadRequestObjectResult(ServiceResponse<T>.FailResponse(ex.Message));
             }
-            catch (Exception ex)
+            catch
             {
                 return new ObjectResult(mensagemErroInesperadoApi) { StatusCode = StatusCodes.Status500InternalServerError };
             }

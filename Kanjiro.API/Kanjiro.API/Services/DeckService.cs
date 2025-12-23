@@ -17,7 +17,7 @@ namespace Kanjiro.API.Services
 
         public async Task<CardInfo> ShowCardToReview(int DeckId)
         {
-            var cardToReview = await _context.Cards.Include(x => x.Info).AsNoTracking().FirstOrDefaultAsync(x => x.NextReviewDate.Date < DateTime.Now && x.State != Enums.CardState.Flagged && x.DeckId == DeckId);
+            var cardToReview = await _context.Cards.Include(x => x.Info).AsNoTracking().FirstOrDefaultAsync(x => x.NextReviewDate.Date < DateTime.UtcNow && x.State != Enums.CardState.FLAGGED && x.DeckId == DeckId);
 
             if (cardToReview == null) throw new KanjiroCustomException("Nenhuma carta encontrada para revisar.");
 
@@ -49,8 +49,8 @@ namespace Kanjiro.API.Services
             var cardToAdd = new Card
             {
                 Info = cardInfo,
-                NextReviewDate = DateTime.Now,
-                State = Enums.CardState.New,
+                NextReviewDate = DateTime.UtcNow,
+                State = Enums.CardState.NEW,
                 DeckId = DeckToAdd.Id,
                 MistakeCounter = 0,
                 CurrentDifficultyMultiplier = 1,
@@ -61,6 +61,16 @@ namespace Kanjiro.API.Services
             await _context.Cards.AddAsync(cardToAdd);
 
             return cardToAdd;
+        }
+
+        public async Task AddNextCardsToLearn(int deckId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<CardInfo>> GetNextCardsToLearn(Deck deck)
+        {
+            throw new NotImplementedException();
         }
 
     }

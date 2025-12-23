@@ -21,6 +21,7 @@ builder.Services.AddScoped<ICardInfoService, CardInfoService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPlacementTestService, PlacementTestService>();
 
 
 var app = builder.Build();

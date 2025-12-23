@@ -34,7 +34,7 @@ namespace Kanjiro.API.Services
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Decks = new List<Deck>(),
-                AccountType = Enums.UserAccountType.Normal,
+                AccountType = Enums.UserAccountType.NORMAL,
                 Settings = new UserSettings()
             };
 
