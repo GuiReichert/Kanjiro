@@ -77,7 +77,7 @@ class ApiService {
 
       throw Exception('Erro inesperado: ${e.message}');
     } catch (e) {
-      throw Exception(e.toString());
+      throw Exception('Erro inesperado: ${e.toString()}');
     }
   }
 
@@ -93,6 +93,26 @@ class ApiService {
       if (e.response != null) {
         throw KanjiroApiException(message: e.response!.data['message']);
       }
+    } catch (e) {
+      throw Exception('Erro inesperado: ${e.toString()}');
+    }
+  }
+
+  static Future<List<CardInfoModel>> placementTest(int level) async {
+    try {
+      final dio = Dio();
+
+      var response = await dio.get('$apiUrl/PlacementTest/$level');
+
+      var json = response.data['returnData'];
+      return (json as List)
+          .map((item) => CardInfoModel.fromJson(item))
+          .toList();
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw KanjiroApiException(message: e.response!.data['message']);
+      }
+      throw Exception('Erro inesperado: ${e.toString()}');
     } catch (e) {
       throw Exception('Erro inesperado: ${e.toString()}');
     }

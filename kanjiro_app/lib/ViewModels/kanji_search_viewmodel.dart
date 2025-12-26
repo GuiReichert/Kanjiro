@@ -13,8 +13,7 @@ abstract class KanjiSearchViewmodelBase with Store {
 
   @action
   Future<void> searchKanjiByText(String text) async {
-    var teste = await ApiService.searchKanjiByText(text);
-    searchResults = teste;
+    searchResults = await ApiService.searchKanjiByText(text);
   }
 
   @action

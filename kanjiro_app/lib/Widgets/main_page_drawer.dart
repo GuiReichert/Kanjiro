@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kanjiro_app/Views/kanji_search_page.dart';
 import 'package:kanjiro_app/Views/login_page.dart';
+import 'package:kanjiro_app/Views/placement_test_page.dart';
 
 class MainPageDrawer extends StatefulWidget {
   const MainPageDrawer({super.key});
@@ -32,7 +33,15 @@ class _MainPageDrawerState extends State<MainPageDrawer> {
 
           _categoriaDrawer('Categoria 2', Icons.texture_sharp),
           _botaoDrawer('Meu Deck', Icons.my_library_books),
-          _botaoDrawer('Nivelamento', Icons.account_tree_outlined),
+          _botaoDrawer(
+            'Nivelamento',
+            Icons.account_tree_outlined,
+            onButtonTap:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => PlacementTestPage()),
+                ),
+          ),
 
           Spacer(),
           _categoriaDrawer('Categoria 2', Icons.person),
