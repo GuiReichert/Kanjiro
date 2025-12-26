@@ -20,23 +20,24 @@ namespace Kanjiro.API.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet("{level}")]
-        public async Task<ActionResult<ServiceResponse<List<CardInfo>>>> GetProvaNivelamentoPorNivel(int level)
+        [HttpGet()]
+        public async Task<ActionResult<ServiceResponse<List<CardInfo>>>> GetProvaNivelamentoPorNivel()
         {
             return await KanjiroApiController.HandleRequest<List<CardInfo>>(async () =>
             {
-                //TODO: Verificar se é melhor fazer um GET por nível ou apenas um GET que envia todas as cartas de uma vez.
-                if (!Enum.IsDefined(typeof(JLPT_Level), level) || !Enum.TryParse<JLPT_Level>(level.ToString(), out var result)) throw new KanjiroCustomException("Não foi possível reconhecer o nível JLPT.");
-
-                return await _placementTestService.GetPlacementTestCardsByLevel(result);
+                return await _placementTestService.GetPlacementTestCardsByLevel();
             });
         }
 
 
         [HttpPost("results")]
-        public async Task<ActionResult<ServiceResponse<Deck>>> PostPlacementTestResults(int userId, int correctAnswers)
+        public async Task<ActionResult<ServiceResponse<Deck>>> PostPlacementTestResults(int userId, int level, int correctAnswers)
         {
-            var result = await KanjiroApiController.HandleRequest<Deck>(async () => { return await _placementTestService.GetPlacementTestResults(userId, correctAnswers); });
+            var result = await KanjiroApiController.HandleRequest<Deck>(async () =>
+            {
+                if (!Enum.IsDefined(typeof(JLPT_Level), level) || !Enum.TryParse<JLPT_Level>(level.ToString(), out var parsedLevel)) throw new KanjiroCustomException("Não foi possível reconhecer o nível JLPT.");
+                return await _placementTestService.GetPlacementTestResults(userId, parsedLevel, correctAnswers);
+            });
             await _unitOfWork.SaveChanges();
 
             return result;

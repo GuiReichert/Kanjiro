@@ -1,4 +1,5 @@
 ﻿using Kanjiro.API.Models.Model;
+using Kanjiro.API.Utils.Enums;
 using Kanjiro.API.Utils.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,8 +19,9 @@ namespace Kanjiro.API.Utils.Handlers
             {
                 return new BadRequestObjectResult(ServiceResponse<T>.FailResponse(ex.Message));
             }
-            catch
+            catch (Exception ex)
             {
+                await LogHandler.InsertLog(ex.ToString(), logType: LogType.ERROR);
                 return new ObjectResult(mensagemErroInesperadoApi) { StatusCode = StatusCodes.Status500InternalServerError };
             }
         }

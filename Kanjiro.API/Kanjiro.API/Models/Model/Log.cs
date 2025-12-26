@@ -9,5 +9,6 @@ namespace Kanjiro.API.Models.Model
         public LogOrigin Origin { get; set; }
         public LogType Type { get; set; }
         public string Message { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
     }
 }

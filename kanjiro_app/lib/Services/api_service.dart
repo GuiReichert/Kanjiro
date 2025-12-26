@@ -98,11 +98,11 @@ class ApiService {
     }
   }
 
-  static Future<List<CardInfoModel>> placementTest(int level) async {
+  static Future<List<CardInfoModel>> placementTest() async {
     try {
       final dio = Dio();
 
-      var response = await dio.get('$apiUrl/PlacementTest/$level');
+      var response = await dio.get('$apiUrl/PlacementTest/');
 
       var json = response.data['returnData'];
       return (json as List)

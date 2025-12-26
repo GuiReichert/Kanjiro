@@ -18,17 +18,31 @@ namespace Kanjiro.API.Services
             _context = context;
         }
 
-        public async Task<List<CardInfo>> GetPlacementTestCardsByLevel(JLPT_Level level)
+        public async Task<List<CardInfo>> GetPlacementTestCardsByLevel()
         {
-            var cardInfos = await _context.CardInfos.Where(x => x.Level == level).Take(20).AsNoTracking().ToListAsync();    // TODO: Implementar lógica melhor para pegar cartas aleatoriamente do nível
+            var cardInfos = await _context.CardInfos
+                .FromSqlRaw(@"
+                    SELECT *
+                    FROM (
+                        SELECT *,
+                               ROW_NUMBER() OVER (PARTITION BY Level ORDER BY NEWID()) AS rn
+                        FROM CardInfos
+                    ) t
+                    WHERE rn <= 40
+                ")
+                .AsNoTracking()
+                .OrderByDescending(x => x.Level)
+                .ToListAsync();
 
-            if (cardInfos == null || cardInfos.Count == 0) throw new KanjiroCustomException($"Ocorreu um erro ao tentar obter cartas para o nivelamento do nível {level}");
+            if (cardInfos == null || cardInfos.Count == 0) throw new KanjiroCustomException($"Ocorreu um erro ao tentar obter cartas para o nivelamento");
 
             return cardInfos;
         }
 
-        public async Task<Deck> GetPlacementTestResults(int userId, int correctAnswers)
+        public async Task<Deck> GetPlacementTestResults(int userId, JLPT_Level level, int correctAnswers)
         {
+            if (level == JLPT_Level.NONE) throw new KanjiroCustomException("Não foi possível determinar o nível final da sua prova de nivelamento");
+
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (user == null) throw new KanjiroCustomException("Não foi possível encontrar o usuário para finalizar a prova de nivelamento.");
 
@@ -36,7 +50,37 @@ namespace Kanjiro.API.Services
 
             _context.Decks.Add(newDeck);
 
-            var graduatedKanjisToAdd = new List<CardInfo>(); //TODO: Implementar lógica de adição das cartas baseado no nível
+            user.CurrentActiveDeckId = newDeck.Id;
+
+
+            int cardQtToTake = 0;
+
+            if (correctAnswers > 3)
+            {
+                switch (level)              // TODO: Organizar esse treco
+                {
+                    case JLPT_Level.N5:
+                        cardQtToTake = (correctAnswers - 1) * 2;
+                        break;
+                    case JLPT_Level.N4:
+                        cardQtToTake = (correctAnswers - 2) * 4;
+                        break;
+                    case JLPT_Level.N3:
+                        cardQtToTake = (correctAnswers - 3) * 9;
+                        break;
+                    case JLPT_Level.N2:
+                        cardQtToTake = (correctAnswers - 3) * 9;
+                        break;
+                    case JLPT_Level.N1:
+                        cardQtToTake = (correctAnswers - 5) * 30;
+                        break;
+                }
+            }
+
+            var graduatedKanjisToAdd = await _context.CardInfos
+                .Where(x => x.Level > level)
+                .Concat(_context.CardInfos.Where(x => x.Level == level).Take(cardQtToTake))
+                .ToListAsync();
 
             var now = DateTime.UtcNow;
 
@@ -46,7 +90,7 @@ namespace Kanjiro.API.Services
                 {
                     Info = kanjiInfo,
                     NextReviewDate = DateTime.UtcNow,
-                    State = CardState.NEW,
+                    State = CardState.GRADUATED,
                     DeckId = newDeck.Id,
                     MistakeCounter = 0,
                     CurrentDifficultyMultiplier = 1,

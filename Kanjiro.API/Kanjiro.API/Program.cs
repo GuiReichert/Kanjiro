@@ -1,6 +1,7 @@
 using Kanjiro.API.Database;
 using Kanjiro.API.Services;
 using Kanjiro.API.Services.Interfaces;
+using Kanjiro.API.Utils.Handlers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,11 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<Kanjiro_Context>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<Kanjiro_Context>(
+                            x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")),
+                            contextLifetime: ServiceLifetime.Scoped,
+                            optionsLifetime: ServiceLifetime.Singleton);
+builder.Services.AddDbContextFactory<Kanjiro_Context>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 builder.Services.AddScoped<IDeckService, DeckService>();
@@ -25,6 +29,8 @@ builder.Services.AddScoped<IPlacementTestService, PlacementTestService>();
 
 
 var app = builder.Build();
+
+LogHandler.Configure(app.Services.GetRequiredService<IDbContextFactory<Kanjiro_Context>>());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

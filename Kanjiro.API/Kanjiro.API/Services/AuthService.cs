@@ -39,6 +39,13 @@ namespace Kanjiro.API.Services
                 Settings = new UserSettings()
             };
 
+            var newDeck = new Deck() { UserId = newUser.Id, Name = "Initial Deck" };
+            var newSettings = new UserSettings() { UserId = newUser.Id };
+
+            newUser.Settings = newSettings;
+            newUser.Decks = new List<Deck> { newDeck };
+            newUser.CurrentActiveDeckId = newDeck.Id;   // TODO: Ainda não configura..
+
             await _context.Users.AddAsync(newUser);
 
             return "Account created successfully.";
@@ -53,12 +60,17 @@ namespace Kanjiro.API.Services
 
             //TODO: Sincronizar / adicionar cartas ao logar?
 
+
+            var currentDeck = user.Decks.Where(x => x.Id == user.CurrentActiveDeckId).ToList(); //TODO: Ajustar o retorno (lista ou valor singular). Também arrumar no APP
+
+            if (!currentDeck.Any()) currentDeck = user.Decks;
+
             var userDTO = new UserDTO           // TODO: Eventualmente alterar para Mapper
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 AccountType = user.AccountType,
-                Decks = user.Decks,
+                Decks = currentDeck,
                 Settings = user.Settings,
             };
 

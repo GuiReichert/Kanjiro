@@ -40,12 +40,21 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
                         crossAxisCount: 3,
                       ),
                       children: [
-                        for (var kanji in widget.viewmodel.cartasNivelamento)
+                        for (var kanji
+                            in widget.viewmodel.currentLevelPlacementCards)
                           _selectableCard(kanji),
                       ],
                     ),
                   ),
-                  ElevatedButton(onPressed: () {}, child: Text('Avançar')),
+                  widget.viewmodel.isSecondPhase
+                      ? ElevatedButton(
+                        onPressed: () {},
+                        child: Text('Finalizar'),
+                      )
+                      : ElevatedButton(
+                        onPressed: widget.viewmodel.nextPage,
+                        child: Text('Avançar'),
+                      ),
                   SizedBox(height: 40),
                 ],
               );
@@ -69,7 +78,9 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: EdgeInsets.all(16),
-          child: Center(child: Text(card.cardInfo.front)),
+          child: Center(
+            child: Text(card.cardInfo.front, style: TextStyle(fontSize: 30)),
+          ),
         ),
       ),
     );

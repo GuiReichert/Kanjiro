@@ -13,7 +13,7 @@ namespace Kanjiro.API.Models.Model
         public DateTime? LastSyncDate { get; set; }
         public UserAccountType AccountType { get; set; }
         public List<Deck> Decks { get; set; } = new List<Deck>();
-        //public int CurrentActiveDeckId { get; set; }
+        public int CurrentActiveDeckId { get; set; }
         public UserSettings Settings { get; set; } = new UserSettings();
 
     }
