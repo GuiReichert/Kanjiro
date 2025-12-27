@@ -1,5 +1,6 @@
 import 'package:kanjiro_app/Models/card_model.dart';
 import 'package:kanjiro_app/Models/deck_model.dart';
+import 'package:kanjiro_app/Utils/Enums/card_state.dart';
 import 'package:mobx/mobx.dart';
 
 part 'user_deck_viewmodel.g.dart';
@@ -7,7 +8,7 @@ part 'user_deck_viewmodel.g.dart';
 class UserDeckViewmodel = UserDeckViewmodelBase with _$UserDeckViewmodel;
 
 abstract class UserDeckViewmodelBase with Store {
-  UserDeckViewmodelBase({required this.decks});
+  UserDeckViewmodelBase({required this.currentDeck});
 
   final DateTime today = DateTime.now().copyWith(
     hour: 23,
@@ -17,11 +18,17 @@ abstract class UserDeckViewmodelBase with Store {
   );
 
   @observable
-  List<DeckModel> decks;
+  DeckModel currentDeck;
 
   @computed
   List<CardModel> get cardsToReview =>
-      decks.first.cards.where((x) => x.nextReviewDate.isBefore(today)).toList();
+      currentDeck.cards
+          .where(
+            (x) =>
+                x.nextReviewDate.isBefore(today) &&
+                x.cardState != CardState.Graduated,
+          )
+          .toList();
 
   @computed
   CardModel? get nextCardToReview => cardsToReview.firstOrNull;

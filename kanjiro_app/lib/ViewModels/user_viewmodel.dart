@@ -22,7 +22,12 @@ abstract class UserViewModelBase with Store {
     var userApi = await ApiService.userLogin(userName, password);
 
     user = userApi;
-    deckViewmodel = UserDeckViewmodel(decks: user!.decks);
+    var currentDeck = user!.decks.firstWhere(
+      (x) => x.id == user!.currentActiveDeckId,
+      orElse: () => user!.decks.first,
+    );
+
+    deckViewmodel = UserDeckViewmodel(currentDeck: currentDeck);
     settingsViewmodel = UserSettingsViewmodel(userSettings: user!.settings);
   }
 
@@ -37,7 +42,12 @@ abstract class UserViewModelBase with Store {
     var userApi = await ApiService.synchronizeChanges(user!);
 
     user = userApi;
-    deckViewmodel = UserDeckViewmodel(decks: user!.decks);
+    var currentDeck = user!.decks.firstWhere(
+      (x) => x.id == user!.currentActiveDeckId,
+      orElse: () => user!.decks.first,
+    );
+
+    deckViewmodel = UserDeckViewmodel(currentDeck: currentDeck);
     settingsViewmodel = UserSettingsViewmodel(userSettings: user!.settings);
   }
 }

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:kanjiro_app/Models/card_info_model.dart';
+import 'package:kanjiro_app/Models/deck_model.dart';
 import 'package:kanjiro_app/Models/user_model.dart';
+import 'package:kanjiro_app/Utils/Enums/jlpt_level.dart';
 import 'package:kanjiro_app/Utils/Exceptions/kanjiro_api_exception.dart';
 
 class ApiService {
@@ -98,7 +100,7 @@ class ApiService {
     }
   }
 
-  static Future<List<CardInfoModel>> placementTest() async {
+  static Future<List<CardInfoModel>> getPlacementTest() async {
     try {
       final dio = Dio();
 
@@ -108,6 +110,37 @@ class ApiService {
       return (json as List)
           .map((item) => CardInfoModel.fromJson(item))
           .toList();
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw KanjiroApiException(message: e.response!.data['message']);
+      }
+      throw Exception('Erro inesperado: ${e.toString()}');
+    } catch (e) {
+      throw Exception('Erro inesperado: ${e.toString()}');
+    }
+  }
+
+  static Future<DeckModel> finishPlacementTest(
+    int userId,
+    JlptLevel finalLevel,
+    int correctAnswers,
+  ) async {
+    try {
+      final dio = Dio();
+
+      var response = await dio.post(
+        '$apiUrl/PlacementTest/results',
+        options: Options(
+          headers: {
+            'userId': userId,
+            'level': finalLevel.value,
+            'correctAnswers': correctAnswers,
+          },
+        ),
+      );
+
+      var json = response.data['returnData'];
+      return DeckModel.fromJson(json);
     } on DioException catch (e) {
       if (e.response != null) {
         throw KanjiroApiException(message: e.response!.data['message']);

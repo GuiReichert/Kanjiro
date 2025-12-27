@@ -48,7 +48,52 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
                   ),
                   widget.viewmodel.isSecondPhase
                       ? ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            await widget.viewmodel.finishPlacementTest();
+                            if (!mounted) return;
+
+                            await showDialog(
+                              context: context,
+                              builder:
+                                  (_) => AlertDialog(
+                                    title: Text('Atenção'),
+                                    content: Text(
+                                      'Teste finalizado com sucesso!',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          return;
+                                        },
+                                        child: Text('Ok'),
+                                      ),
+                                    ],
+                                  ),
+                            );
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          } catch (e) {
+                            await showDialog(
+                              context: context,
+                              builder:
+                                  (_) => AlertDialog(
+                                    title: Text('Atenção'),
+                                    content: Text(e.toString()),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          return;
+                                        },
+                                        child: Text('Ok'),
+                                      ),
+                                    ],
+                                  ),
+                            );
+                          }
+                        },
                         child: Text('Finalizar'),
                       )
                       : ElevatedButton(

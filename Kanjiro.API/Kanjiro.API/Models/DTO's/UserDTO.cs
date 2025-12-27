@@ -13,5 +13,6 @@ namespace Kanjiro.API.Models.DTO_s
         public List<Deck> Decks { get; set; } = new List<Deck>();
         public UserAccountType AccountType { get; set; }
         public UserSettings Settings { get; set; } = new UserSettings();
+        public int currentActiveDeckId { get; set; }
     }
 }

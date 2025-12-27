@@ -31,17 +31,15 @@ namespace Kanjiro.API.Controllers
 
 
         [HttpPost("results")]
-        public async Task<ActionResult<ServiceResponse<Deck>>> PostPlacementTestResults(int userId, int level, int correctAnswers)
+        public async Task<ActionResult<ServiceResponse<Deck>>> PostPlacementTestResults([FromHeader] int userId, [FromHeader] int level, [FromHeader] int correctAnswers)
         {
-            var result = await KanjiroApiController.HandleRequest<Deck>(async () =>
+            return await KanjiroApiController.HandleRequest<Deck>(async () =>
             {
                 if (!Enum.IsDefined(typeof(JLPT_Level), level) || !Enum.TryParse<JLPT_Level>(level.ToString(), out var parsedLevel)) throw new KanjiroCustomException("Não foi possível reconhecer o nível JLPT.");
-                return await _placementTestService.GetPlacementTestResults(userId, parsedLevel, correctAnswers);
+                Deck deck = await _placementTestService.GetPlacementTestResults(userId, parsedLevel, correctAnswers);
+                await _unitOfWork.SaveChanges();
+                return deck;
             });
-            await _unitOfWork.SaveChanges();
-
-            return result;
         }
-
     }
 }

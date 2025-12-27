@@ -16,7 +16,7 @@ abstract class KanjiInfoViewmodelBase with Store {
   @action
   void init() {
     userViewmodel = Injector.appInstance.get<UserViewmodel>();
-    deck = userViewmodel.deckViewmodel.decks.first;
+    deck = userViewmodel.deckViewmodel.currentDeck;
   }
 
   @observable

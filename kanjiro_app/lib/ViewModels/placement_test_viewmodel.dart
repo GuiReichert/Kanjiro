@@ -1,6 +1,9 @@
+import 'package:injector/injector.dart';
 import 'package:kanjiro_app/Models/placement_test_card_model.dart';
 import 'package:kanjiro_app/Services/api_service.dart';
 import 'package:kanjiro_app/Utils/Enums/jlpt_level.dart';
+import 'package:kanjiro_app/ViewModels/user_deck_viewmodel.dart';
+import 'package:kanjiro_app/ViewModels/user_viewmodel.dart';
 import 'package:mobx/mobx.dart';
 
 part 'placement_test_viewmodel.g.dart';
@@ -28,7 +31,7 @@ abstract class PlacementTestViewmodelBase with Store {
   Future init() async {
     isLoading = true;
     try {
-      var cardInfos = await ApiService.placementTest();
+      var cardInfos = await ApiService.getPlacementTest();
       allPlacementCards =
           cardInfos
               .map(
@@ -90,7 +93,21 @@ abstract class PlacementTestViewmodelBase with Store {
   }
 
   @action
-  void finishPlacementTest() {
-    //TODO: Implement here -> API call sends the currentLevel and the amount of selected cards on that level (allPlacementCards.Where((x) => x.cardInfo.jlptLevel == currentLevel && x.isSelected)).length
+  Future finishPlacementTest() async {
+    var correctAnswers =
+        allPlacementCards
+            .where(
+              (x) => x.isSelected && x.cardInfo.jlptLevel == currentLevel,
+            )
+            .length;
+    var userViewmodel = Injector.appInstance.get<UserViewmodel>();
+
+    var response = await ApiService.finishPlacementTest(
+      userViewmodel.user!.id,
+      currentLevel,
+      correctAnswers,
+    );
+
+    userViewmodel.deckViewmodel = UserDeckViewmodel(currentDeck: response);
   }
 }

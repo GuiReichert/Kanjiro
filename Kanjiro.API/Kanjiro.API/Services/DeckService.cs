@@ -66,12 +66,35 @@ namespace Kanjiro.API.Services
 
         public async Task AddNextCardsToLearn(int deckId)
         {
-            throw new NotImplementedException();
+            var deck = await _context.Decks.Include(x => x.Cards).ThenInclude(x => x.Info).FirstOrDefaultAsync(x => x.Id == deckId);
+            if (deck == null) throw new KanjiroCustomException("Não foi possível encontrar o Deck");
+
+            var newKanjis = _context.CardInfos.Where(x => !deck.Cards.Any(y => y.Info.Id == x.Id)).Take(10).ToList();
+            var newCards = new List<Card>();
+
+            var now = DateTime.Now;
+
+            foreach (var kanji in newKanjis)
+            {
+                var card = new Card
+                {
+                    CurrentDifficultyMultiplier = 1,
+                    DeckId = deck.Id,
+                    Info = kanji,
+                    MistakeCounter = 0,
+                    NextReviewDate = now,
+                    State = CardState.NEW,
+                };
+
+                newCards.Add(card);
+            }
+
+            deck.Cards.AddRange(newCards);
         }
 
         public async Task<List<CardInfo>> GetNextCardsToLearn(Deck deck)
         {
-            throw new NotImplementedException();
+            return new List<CardInfo>();
         }
 
     }

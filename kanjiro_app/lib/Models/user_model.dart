@@ -15,6 +15,7 @@ class UserModel {
     required this.decks,
     required this.settings,
     required this.accountType,
+    required this.currentActiveDeckId,
   });
 
   final int id;
@@ -24,6 +25,7 @@ class UserModel {
   final List<DeckModel> decks;
   final UserSettingsModel settings;
   UserAccountType accountType;
+  int currentActiveDeckId;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

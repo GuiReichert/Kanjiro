@@ -23,32 +23,47 @@ namespace Kanjiro.API.Services
 
         public async Task<string> Register(string username, string password)    // TODO: Passar Register e Login para UserService e UserController
         {
-            if (_context.Users.Any(x => x.UserName.ToLower() == username.ToLower())) throw new KanjiroCustomException("This Username is already in use.");
 
-            // Adicionar validação para senhas com regex
-
-            EncryptPassword(password, out var passwordHash, out var passwordSalt);
-
-            var newUser = new User
+            await using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                UserName = username,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                Decks = new List<Deck>(),
-                AccountType = UserAccountType.NORMAL,
-                Settings = new UserSettings()
-            };
+                try
+                {
+                    if (_context.Users.Any(x => x.UserName.ToLower() == username.ToLower())) throw new KanjiroCustomException("This Username is already in use.");
 
-            var newDeck = new Deck() { UserId = newUser.Id, Name = "Initial Deck" };
-            var newSettings = new UserSettings() { UserId = newUser.Id };
+                    // Adicionar validação para senhas com regex
 
-            newUser.Settings = newSettings;
-            newUser.Decks = new List<Deck> { newDeck };
-            newUser.CurrentActiveDeckId = newDeck.Id;   // TODO: Ainda não configura..
+                    EncryptPassword(password, out var passwordHash, out var passwordSalt);
 
-            await _context.Users.AddAsync(newUser);
+                    var newUser = new User
+                    {
+                        UserName = username,
+                        PasswordHash = passwordHash,
+                        PasswordSalt = passwordSalt,
+                        AccountType = UserAccountType.NORMAL,
+                        Settings = new UserSettings()
+                    };
 
-            return "Account created successfully.";
+                    var newDeck = new Deck() { Name = "Initial Deck" };
+                    newUser.Decks = new List<Deck> { newDeck };
+
+                    await _context.Users.AddAsync(newUser);
+                    await _context.SaveChangesAsync();
+
+                    newUser.CurrentActiveDeckId = newDeck.Id;
+                    await _context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+
+
+                    return "Account created successfully.";
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+
         }
 
         public async Task<UserDTO> Login(string username, string password)
@@ -72,6 +87,9 @@ namespace Kanjiro.API.Services
                 AccountType = user.AccountType,
                 Decks = currentDeck,
                 Settings = user.Settings,
+                LastSyncDate = user.LastSyncDate,
+                NickName = user.NickName,
+                currentActiveDeckId = user.CurrentActiveDeckId,
             };
 
             return userDTO;
