@@ -39,13 +39,13 @@ namespace Kanjiro.API.Services
             return cardInfos;
         }
 
-        public async Task<Deck> GetPlacementTestResults(int userId, JLPT_Level level, int correctAnswers)
+        public async Task<Deck> GetPlacementTestResults(int userId, JLPT_Level currentLevel, int correctAnswersInCurrrentLevel)
         {
             await using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    if (level == JLPT_Level.NONE) throw new KanjiroCustomException("Não foi possível determinar o nível final da sua prova de nivelamento");
+                    if (currentLevel == JLPT_Level.NONE) throw new KanjiroCustomException("Não foi possível determinar o nível final da sua prova de nivelamento");
 
                     var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
                     if (user == null) throw new KanjiroCustomException("Não foi possível encontrar o usuário para finalizar a prova de nivelamento.");
@@ -53,50 +53,17 @@ namespace Kanjiro.API.Services
                     var newDeck = new Deck { Name = "PlacementResultDeck" };
                     user.Decks.Add(newDeck);
 
-                    int cardQtToTake = 0;
-
-                    if (correctAnswers > 3)
-                    {
-                        switch (level)              // TODO: Organizar esse treco
-                        {
-                            case JLPT_Level.N5:
-                                cardQtToTake = (correctAnswers - 1) * 2;
-                                break;
-                            case JLPT_Level.N4:
-                                cardQtToTake = (correctAnswers - 2) * 4;
-                                break;
-                            case JLPT_Level.N3:
-                                cardQtToTake = (correctAnswers - 3) * 9;
-                                break;
-                            case JLPT_Level.N2:
-                                cardQtToTake = (correctAnswers - 3) * 9;
-                                break;
-                            case JLPT_Level.N1:
-                                cardQtToTake = (correctAnswers - 5) * 30;
-                                break;
-                        }
-                    }
+                    var cardQtToTake = DefineCardQtToTake(currentLevel, correctAnswersInCurrrentLevel);
 
                     var graduatedKanjisToAdd = await _context.CardInfos
-                        .Where(x => x.Level > level)
-                        .Concat(_context.CardInfos.Where(x => x.Level == level).Take(cardQtToTake))
+                        .Where(x => x.Level > currentLevel)
+                        .Concat(_context.CardInfos.Where(x => x.Level == currentLevel).Take(cardQtToTake))
                         .ToListAsync();
 
-                    var now = DateTime.UtcNow;
 
                     foreach (var kanjiInfo in graduatedKanjisToAdd)
                     {
-                        var graduatedCard = new Card
-                        {
-                            Info = kanjiInfo,
-                            NextReviewDate = DateTime.UtcNow,
-                            State = CardState.GRADUATED,
-                            DeckId = newDeck.Id,
-                            MistakeCounter = 0,
-                            CurrentDifficultyMultiplier = 1,
-                            ReviewDateCounter = 0,
-                            UserComment = string.Empty,
-                        };
+                        var graduatedCard = new Card(kanjiInfo, newDeck.Id, cardState: CardState.GRADUATED);
 
                         newDeck.Cards.Add(graduatedCard);
                     }
@@ -112,17 +79,7 @@ namespace Kanjiro.API.Services
 
                     foreach (var kanjiInfo in newCards)
                     {
-                        var newCard = new Card
-                        {
-                            Info = kanjiInfo,
-                            NextReviewDate = DateTime.UtcNow,
-                            State = CardState.NEW,
-                            DeckId = newDeck.Id,
-                            MistakeCounter = 0,
-                            CurrentDifficultyMultiplier = 1,
-                            ReviewDateCounter = 0,
-                            UserComment = string.Empty,
-                        };
+                        var newCard = new Card(kanjiInfo, newDeck.Id);
 
                         newDeck.Cards.Add(newCard);
                     }
@@ -144,6 +101,28 @@ namespace Kanjiro.API.Services
                 }
             }
 
+        }
+
+        private static int DefineCardQtToTake(JLPT_Level level, int correctAnswers)
+        {
+            if (correctAnswers > 3)
+            {
+                switch (level)              // TODO: Organizar esse treco
+                {
+                    case JLPT_Level.N5:
+                        return (correctAnswers - 1) * 2;
+                    case JLPT_Level.N4:
+                        return (correctAnswers - 2) * 4;
+                    case JLPT_Level.N3:
+                        return (correctAnswers - 3) * 9;
+                    case JLPT_Level.N2:
+                        return (correctAnswers - 3) * 9;
+                    case JLPT_Level.N1:
+                        return (correctAnswers - 5) * 30;
+                }
+            }
+
+            return 0;
         }
     }
 }

@@ -80,17 +80,7 @@ namespace Kanjiro.API.Services
 
             if (!currentDeck.Any()) currentDeck = user.Decks;
 
-            var userDTO = new UserDTO           // TODO: Eventualmente alterar para Mapper
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                AccountType = user.AccountType,
-                Decks = currentDeck,
-                Settings = user.Settings,
-                LastSyncDate = user.LastSyncDate,
-                NickName = user.NickName,
-                currentActiveDeckId = user.CurrentActiveDeckId,
-            };
+            var userDTO = UserDTO.FromUser(user);
 
             return userDTO;
         }

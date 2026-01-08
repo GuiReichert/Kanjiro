@@ -47,17 +47,7 @@ namespace Kanjiro.API.Services
 
             if (DeckToAdd == null) throw new KanjiroCustomException("Não foi possível encontrar o deck escolhido.");
 
-            var cardToAdd = new Card
-            {
-                Info = cardInfo,
-                NextReviewDate = DateTime.UtcNow,
-                State = CardState.NEW,
-                DeckId = DeckToAdd.Id,
-                MistakeCounter = 0,
-                CurrentDifficultyMultiplier = 1,
-                ReviewDateCounter = 0,
-                UserComment = string.Empty,
-            };
+            var cardToAdd = new Card(cardInfo, DeckToAdd.Id);
 
             await _context.Cards.AddAsync(cardToAdd);
 
@@ -72,19 +62,9 @@ namespace Kanjiro.API.Services
             var newKanjis = _context.CardInfos.Where(x => !deck.Cards.Any(y => y.Info.Id == x.Id)).Take(10).ToList();
             var newCards = new List<Card>();
 
-            var now = DateTime.Now;
-
-            foreach (var kanji in newKanjis)
+            foreach (var kanjiInfo in newKanjis)
             {
-                var card = new Card
-                {
-                    CurrentDifficultyMultiplier = 1,
-                    DeckId = deck.Id,
-                    Info = kanji,
-                    MistakeCounter = 0,
-                    NextReviewDate = now,
-                    State = CardState.NEW,
-                };
+                var card = new Card(kanjiInfo, deckId);
 
                 newCards.Add(card);
             }

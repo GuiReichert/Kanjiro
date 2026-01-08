@@ -63,17 +63,7 @@ namespace Kanjiro.API.Services
 
             //TODO: Adicionar novas cartas ao deck caso necessário
 
-            var userDTO = new UserDTO   // TODO: usar mapper!!!!!
-            {
-                Id = currentUser.Id,
-                UserName = currentUser.UserName,
-                NickName = currentUser.NickName,
-                LastSyncDate = currentUser.LastSyncDate,
-                AccountType = currentUser.AccountType,
-                Decks = currentUser.Decks,
-                Settings = currentUser.Settings,
-                currentActiveDeckId = currentUser.CurrentActiveDeckId,
-            };
+            var userDTO = UserDTO.FromUser(currentUser);
 
             return userDTO;
         }
