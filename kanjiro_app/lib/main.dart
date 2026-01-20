@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
+import 'package:kanjiro_app/ViewModels/kanji_drawing_canvas_viewmodel.dart';
 import 'package:kanjiro_app/ViewModels/kanji_search_viewmodel.dart';
 import 'package:kanjiro_app/ViewModels/user_viewmodel.dart';
 import 'package:kanjiro_app/Views/login_page.dart';
@@ -11,6 +12,10 @@ void main() {
 
   injector.registerDependency<KanjiSearchViewmodel>(
     () => KanjiSearchViewmodel(),
+  );
+
+  injector.registerDependency<KanjiDrawingCanvasViewmodel>(
+    () => KanjiDrawingCanvasViewmodel(),
   );
 
   runApp(const MyApp());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kanjiro_app/Views/kanji_recognizer.dart';
 import 'package:kanjiro_app/Views/kanji_search_page.dart';
 import 'package:kanjiro_app/Views/login_page.dart';
 import 'package:kanjiro_app/Views/placement_test_page.dart';
@@ -40,6 +41,15 @@ class _MainPageDrawerState extends State<MainPageDrawer> {
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => PlacementTestPage()),
+                ),
+          ),
+          _botaoDrawer(
+            'Kanji Recognizer',
+            Icons.draw_sharp,
+            onButtonTap:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => KanjiRecognizer()),
                 ),
           ),
 
