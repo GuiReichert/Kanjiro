@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-class StrokePoint {
+class SingularStroke {
   final Offset point;
   final DateTime time;
 
-  StrokePoint({required this.point}) : time = DateTime.now();
+  SingularStroke({required this.point}) : time = DateTime.now();
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:injector/injector.dart';
-import 'package:kanjiro_app/Models/stroke_point.dart';
+import 'package:kanjiro_app/Models/singular_stroke.dart';
 import 'package:kanjiro_app/ViewModels/kanji_drawing_canvas_viewmodel.dart';
 
 class KanjiRecognizer extends StatefulWidget {
@@ -54,10 +54,11 @@ class _KanjiRecognizerState extends State<KanjiRecognizer> {
                   viewmodel.addStroke(currentPoint);
                 });
               },
-              onPanEnd: (details) {
+              onPanEnd: (details) async {
                 setState(() {
                   viewmodel.resetCurrentStroke();
                 });
+                await viewmodel.recognizeKanji();
               },
               child: CustomPaint(
                 size: Size(300, 300),
@@ -87,7 +88,7 @@ class _KanjiRecognizerState extends State<KanjiRecognizer> {
 }
 
 class KanjiPainter extends CustomPainter {
-  final List<List<StrokePoint>> strokes;
+  final List<List<SingularStroke>> strokes;
 
   KanjiPainter({super.repaint, required this.strokes});
 
